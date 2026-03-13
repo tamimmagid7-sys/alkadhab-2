@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>الكذاب - Al-Kadhab</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&family=Cairo:wght@400;600;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #12121a;
+    --surface2: #1a1a28;
+    --accent: #ff3c5a;
+    --accent2: #ff7c3a;
+    --gold: #ffd700;
+    --purple: #a855f7;
+    --text: #f0edf8;
+    --text-muted: #8884aa;
+    --border: #2a2a40;
+    --success: #2ecc71;
+    --glow: 0 0 30px rgba(255,60,90,0.3);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  html,body { width:100%; height:100%; font-family:'Cairo',sans-serif; background:var(--bg); color:var(--text); overflow:hidden; }
+  body::before { content:''; position:fixed; inset:0; background:radial-gradient(ellipse at 20% 20%,rgba(255,60,90,.08) 0%,transparent 60%),radial-gradient(ellipse at 80% 80%,rgba(120,60,255,.08) 0%,transparent 60%); pointer-events:none; z-index:0; }
+
+  /* PARTICLES */
+  .particles { position:fixed; inset:0; overflow:hidden; z-index:0; pointer-events:none; }
+  .particle { position:absolute; width:2px; height:2px; border-radius:50%; opacity:0; animation:floatUp linear infinite; }
+  @keyframes floatUp { 0%{transform:translateY(100vh) translateX(0);opacity:0} 10%{opacity:.6} 90%{opacity:.3} 100%{transform:translateY(-10vh) translateX(var(--drift));opacity:0} }
+
+  /* APP SHELL */
+  #app { position:fixed; inset:0; display:flex; align-items:center; justify-content:center; z-index:1; }
+
+  /* SCREENS */
+  .screen { display:none; width:100%; height:100%; max-width:560px; max-height:100vh; flex-direction:column; align-items:center; overflow:hidden; position:relative; animation:fadeIn .35s ease; }
+  .screen.active { display:flex; }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+
+  .screen-inner { width:100%; flex:1; overflow-y:auto; overflow-x:hidden; padding:20px 18px 28px; display:flex; flex-direction:column; align-items:center; }
+  .screen-inner::-webkit-scrollbar { width:3px; }
+  .screen-inner::-webkit-scrollbar-thumb { background:var(--border); border-radius:2px; }
+
+  .screen-header { width:100%; padding:12px 18px 0; display:flex; align-items:center; flex-shrink:0; min-height:48px; }
+
+  /* LOGO */
+  .logo { font-family:'Tajawal',sans-serif; font-size:clamp(3rem,10vw,4.5rem); font-weight:900; background:linear-gradient(135deg,var(--accent),var(--accent2),var(--gold)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; text-align:center; letter-spacing:-2px; line-height:1; filter:drop-shadow(0 0 20px rgba(255,60,90,.5)); }
+  .logo-sub { font-size:clamp(.75rem,2.5vw,1rem); color:var(--text-muted); text-align:center; margin-top:6px; letter-spacing:3px; text-transform:uppercase; }
+
+  /* CARDS */
+  .card { background:var(--surface); border:1px solid var(--border); border-radius:20px; padding:18px 16px; width:100%; margin:7px 0; }
+  .card-title { font-size:1.1rem; font-weight:700; margin-bottom:12px; color:var(--text); display:flex; align-items:center; gap:10px; }
+
+  /* BUTTONS */
+  .btn { display:flex; align-items:center; justify-content:center; gap:10px; width:100%; padding:14px 22px; border:none; border-radius:14px; font-family:'Cairo',sans-serif; font-size:clamp(.93rem,2.5vw,1.05rem); font-weight:700; cursor:pointer; transition:all .18s ease; margin:4px 0; position:relative; overflow:hidden; }
+  .btn::after { content:''; position:absolute; inset:0; background:rgba(255,255,255,.1); opacity:0; transition:opacity .2s; }
+  .btn:hover::after { opacity:1; }
+  .btn:active { transform:scale(.96); }
+  .btn-primary  { background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#fff; box-shadow:var(--glow); }
+  .btn-secondary{ background:var(--surface2); color:var(--text); border:1px solid var(--border); }
+  .btn-gold     { background:linear-gradient(135deg,#ffd700,#ff9500); color:#1a0a00; }
+  .btn-success  { background:linear-gradient(135deg,#2ecc71,#27ae60); color:#fff; }
+  .btn-purple   { background:linear-gradient(135deg,#a855f7,#7c3aed); color:#fff; box-shadow:0 0 24px rgba(168,85,247,.35); }
+
+  /* MENU BUTTONS */
+  .menu-btn { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:14px 16px; cursor:pointer; transition:all .22s ease; margin:5px 0; display:flex; align-items:center; gap:14px; color:var(--text); font-family:'Cairo',sans-serif; font-size:clamp(.93rem,2.5vw,1.05rem); font-weight:600; width:100%; }
+  .menu-btn:hover { border-color:var(--accent); background:var(--surface2); transform:translateX(-4px); box-shadow:4px 0 0 var(--accent); }
+  .menu-btn .icon { width:44px; height:44px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:1.35rem; flex-shrink:0; }
+  .menu-btn .icon.red    { background:rgba(255,60,90,.15); }
+  .menu-btn .icon.blue   { background:rgba(60,130,255,.15); }
+  .menu-btn .icon.green  { background:rgba(46,204,113,.15); }
+  .menu-btn .icon.yellow { background:rgba(255,215,0,.15); }
+  .menu-btn .icon.purple { background:rgba(168,85,247,.15); }
+  .menu-btn .text { flex:1; text-align:right; }
+  .menu-btn .text small { display:block; font-size:.75rem; color:var(--text-muted); font-weight:400; margin-top:2px; }
+
+  /* MODE CARDS */
+  .mode-card { border-radius:18px; padding:16px 18px; width:100%; margin:7px 0; cursor:pointer; border:2px solid var(--border); transition:all .22s ease; position:relative; overflow:hidden; }
+  .mode-card:hover { transform:translateY(-2px); }
+  .mode-card.mode-questions { background:linear-gradient(135deg,rgba(255,60,90,.08),rgba(255,124,58,.05)); }
+  .mode-card.mode-desc      { background:linear-gradient(135deg,rgba(168,85,247,.08),rgba(124,58,237,.05)); }
+  .mode-card.selected.mode-questions { border-color:var(--accent); box-shadow:0 0 20px rgba(255,60,90,.2); }
+  .mode-card.selected.mode-desc      { border-color:var(--purple); box-shadow:0 0 20px rgba(168,85,247,.2); }
+  .mode-card-title { font-size:1.1rem; font-weight:900; margin-bottom:4px; }
+  .mode-card-desc  { font-size:.8rem; color:var(--text-muted); line-height:1.6; }
+  .mode-check { position:absolute; top:13px; left:13px; width:22px; height:22px; border-radius:50%; border:2px solid var(--border); background:transparent; display:flex; align-items:center; justify-content:center; font-size:.75rem; transition:all .2s; }
+  .mode-card.selected.mode-questions .mode-check { background:var(--accent); border-color:var(--accent); color:#fff; }
+  .mode-card.selected.mode-desc      .mode-check { background:var(--purple); border-color:var(--purple); color:#fff; }
+
+  /* INPUT */
+  input[type="text"] { background:var(--surface2); border:1.5px solid var(--border); border-radius:12px; padding:12px 13px; color:var(--text); font-family:'Cairo',sans-serif; font-size:1rem; width:100%; transition:border-color .2s; text-align:right; }
+  input[type="text"]:focus { outline:none; border-color:var(--accent); box-shadow:0 0 0 3px rgba(255,60,90,.1); }
+
+  /* PLAYER TAGS */
+  .player-tag { display:inline-flex; align-items:center; gap:8px; background:var(--surface2); border:1px solid var(--border); border-radius:10px; padding:6px 11px; margin:3px; font-size:.87rem; font-weight:600; }
+  .player-tag .remove { cursor:pointer; color:var(--accent); font-size:1.1rem; line-height:1; transition:transform .2s; }
+  .player-tag .remove:hover { transform:rotate(90deg); }
+  .players-list { display:flex; flex-wrap:wrap; justify-content:center; margin:10px 0; }
+
+  /* BIG DISPLAY */
+  .big-display { text-align:center; padding:12px 8px; width:100%; }
+  .big-name { font-size:clamp(2rem,8vw,3rem); font-weight:900; background:linear-gradient(135deg,var(--accent),var(--gold)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; margin:7px 0; }
+  .big-word { font-size:clamp(1.7rem,6vw,2.5rem); font-weight:900; color:var(--gold); background:var(--surface2); border:2px solid var(--gold); border-radius:16px; padding:13px 26px; margin:12px 0; display:inline-block; box-shadow:0 0 20px rgba(255,215,0,.2); }
+  .liar-badge { font-size:clamp(1.25rem,4.5vw,1.75rem); font-weight:900; color:var(--accent); background:rgba(255,60,90,.1); border:2px solid var(--accent); border-radius:16px; padding:13px 26px; margin:12px 0; display:inline-block; animation:pulse 1.5s infinite; }
+  @keyframes pulse { 0%,100%{box-shadow:0 0 10px rgba(255,60,90,.3)} 50%{box-shadow:0 0 28px rgba(255,60,90,.65)} }
+
+  /* PROGRESS */
+  .progress-bar { width:100%; height:4px; background:var(--border); border-radius:2px; margin:14px 0; overflow:hidden; }
+  .progress-fill { height:100%; background:linear-gradient(90deg,var(--accent),var(--accent2)); border-radius:2px; transition:width .4s ease; }
+
+  /* VOTE BUTTONS */
+  .vote-btn { display:flex; align-items:center; justify-content:space-between; background:var(--surface2); border:1.5px solid var(--border); border-radius:12px; padding:12px 15px; cursor:pointer; transition:all .2s; margin:5px 0; color:var(--text); font-family:'Cairo',sans-serif; font-size:1rem; font-weight:600; width:100%; text-align:right; }
+  .vote-btn:hover { border-color:var(--accent); background:rgba(255,60,90,.08); transform:translateX(-4px); }
+
+  /* RESULTS */
+  .result-icon { font-size:clamp(3rem,10vw,5rem); text-align:center; margin:12px 0; animation:bounceIn .6s ease; }
+  @keyframes bounceIn { 0%{transform:scale(0)} 60%{transform:scale(1.1)} 100%{transform:scale(1)} }
+  .result-title { font-size:clamp(1.4rem,5vw,2rem); font-weight:900; text-align:center; margin-bottom:8px; }
+  .vote-tally { display:flex; align-items:center; justify-content:space-between; padding:10px 13px; background:var(--surface2); border-radius:10px; margin:4px 0; }
+  .vote-tally-bar { height:6px; background:var(--accent); border-radius:3px; margin-top:4px; transition:width .5s ease; }
+
+  /* SETTINGS */
+  .setting-row { display:flex; align-items:center; justify-content:space-between; padding:12px 0; border-bottom:1px solid var(--border); }
+  .setting-row:last-child { border-bottom:none; }
+  .toggle { width:48px; height:26px; background:var(--border); border-radius:13px; position:relative; cursor:pointer; transition:background .3s; }
+  .toggle.on { background:var(--accent); }
+  .toggle::after { content:''; position:absolute; width:20px; height:20px; background:white; border-radius:50%; top:3px; right:3px; transition:transform .3s; }
+  .toggle.on::after { transform:translateX(-22px); }
+  .slider-row { display:flex; align-items:center; gap:10px; }
+  input[type="range"] { -webkit-appearance:none; appearance:none; width:110px; height:4px; background:var(--border); border-radius:2px; outline:none; }
+  input[type="range"]::-webkit-slider-thumb { -webkit-appearance:none; width:18px; height:18px; background:var(--accent); border-radius:50%; cursor:pointer; }
+
+  /* MISC */
+  .section-label { font-size:.72rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:2px; margin:12px 0 5px; font-weight:700; }
+  .divider { width:100%; height:1px; background:var(--border); margin:12px 0; }
+  .hint { font-size:.83rem; color:var(--text-muted); text-align:center; margin:5px 0; }
+  .emoji-big { font-size:clamp(2rem,8vw,3rem); text-align:center; display:block; margin:7px 0; }
+
+  /* ACTION PANEL */
+  .action-panel { background:var(--surface2); border-radius:14px; padding:16px 14px; text-align:center; margin:8px 0; width:100%; }
+  .panel-actor  { font-size:clamp(1.2rem,4vw,1.4rem); font-weight:900; color:var(--accent); }
+  .panel-actor.purple { color:var(--purple); }
+  .panel-arrow  { font-size:1.7rem; margin:5px 0; }
+  .panel-label  { font-size:.78rem; color:var(--text-muted); margin:2px 0; }
+  .panel-target { font-size:clamp(1.2rem,4vw,1.4rem); font-weight:900; color:var(--gold); }
+
+  /* DESCRIBE CARD */
+  .describe-card { background:linear-gradient(135deg,rgba(168,85,247,.12),rgba(124,58,237,.06)); border:2px solid rgba(168,85,247,.35); border-radius:16px; padding:18px; text-align:center; margin:8px 0; width:100%; }
+  .describe-name { font-size:clamp(1.6rem,6vw,2.2rem); font-weight:900; color:var(--purple); margin:8px 0; }
+  .describe-turn-label { font-size:.8rem; color:var(--text-muted); }
+  .describe-tip { background:rgba(168,85,247,.08); border:1px solid rgba(168,85,247,.2); border-radius:10px; padding:9px 13px; font-size:.8rem; color:var(--text-muted); margin-top:10px; line-height:1.75; text-align:right; }
+
+  /* NUMBER SELECTOR */
+  .number-selector { display:flex; align-items:center; gap:16px; justify-content:center; margin:12px 0; }
+  .num-btn { width:44px; height:44px; border-radius:50%; border:2px solid var(--accent); background:transparent; color:var(--accent); font-size:1.3rem; font-weight:900; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all .2s; }
+  .num-btn:hover { background:var(--accent); color:white; }
+  .num-display { font-size:2.5rem; font-weight:900; color:var(--text); min-width:56px; text-align:center; }
+
+  /* HOW-TO */
+  .how-to-step { display:flex; gap:12px; margin:8px 0; align-items:flex-start; }
+  .step-num { width:30px; height:30px; border-radius:50%; background:linear-gradient(135deg,var(--accent),var(--accent2)); display:flex; align-items:center; justify-content:center; font-weight:900; font-size:.85rem; flex-shrink:0; margin-top:2px; }
+  .step-text { font-size:.88rem; color:var(--text-muted); line-height:1.6; }
+  .step-text strong { color:var(--text); }
+
+  /* BACK BTN */
+  .back-btn { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:6px 12px; color:var(--text-muted); font-family:'Cairo',sans-serif; font-size:.87rem; cursor:pointer; transition:all .2s; margin-left:auto; }
+  .back-btn:hover { color:var(--text); border-color:var(--accent); }
+
+  /* PHASE DOTS */
+  .phase-indicator { display:flex; gap:6px; justify-content:center; margin-bottom:14px; }
+  .phase-dot { width:8px; height:8px; border-radius:50%; background:var(--border); transition:all .3s; }
+  .phase-dot.active { background:var(--accent); width:24px; border-radius:4px; }
+  .phase-dot.active.purple { background:var(--purple); }
+  .phase-dot.done { background:var(--success); }
+
+  /* MODE BADGE */
+  .mode-badge { display:inline-flex; align-items:center; gap:6px; padding:4px 12px; border-radius:20px; font-size:.74rem; font-weight:700; margin-bottom:8px; }
+  .mode-badge.questions { background:rgba(255,60,90,.15); color:var(--accent); border:1px solid rgba(255,60,90,.3); }
+  .mode-badge.describe  { background:rgba(168,85,247,.15); color:var(--purple); border:1px solid rgba(168,85,247,.3); }
+
+  /* RESPONSIVE */
+  @media (min-width:600px) {
+    #app { padding:20px; }
+    .screen { border-radius:24px; max-height:calc(100vh - 40px); box-shadow:0 0 60px rgba(0,0,0,.6); }
+  }
+  @media (max-height:640px) {
+    .screen-inner { padding:12px 15px 18px; }
+    .card { padding:13px 13px; margin:5px 0; }
+    .btn  { padding:11px 18px; margin:3px 0; }
+    .emoji-big { margin:3px 0; }
+  }
+  @media (max-height:500px) {
+    .logo { font-size:2rem; }
+    .big-word { padding:9px 18px; }
+    .liar-badge { padding:9px 18px; }
+  }
+</style>
+</head>
+<body>
+<div class="particles" id="particles"></div>
+<div id="app">
+
+<!-- ═══════ MAIN MENU ═══════ -->
+<div class="screen active" id="screen-menu">
+  <div class="screen-inner">
+    <div style="text-align:center;margin-bottom:22px;padding-top:8px;">
+      <div class="logo">الكذاب</div>
+      <div class="logo-sub">Al-Kadhab</div>
+    </div>
+    <button class="menu-btn" onclick="showScreen('screen-players')">
+      <div class="icon red">🎮</div><div class="text">ابدأ اللعبة<small>أدخل أسماء اللاعبين وابدأ</small></div>
+    </button>
+    <button class="menu-btn" onclick="showScreen('screen-how')">
+      <div class="icon blue">📖</div><div class="text">كيف تلعب؟<small>تعلم قواعد اللعبة</small></div>
+    </button>
+    <button class="menu-btn" onclick="showScreen('screen-settings')">
+      <div class="icon green">⚙️</div><div class="text">الإعدادات<small>صوت، اهتزاز، حجم الشاشة</small></div>
+    </button>
+    <button class="menu-btn" onclick="showScreen('screen-credits')">
+      <div class="icon yellow">👨‍💻</div><div class="text">المطور<small>معلومات عن المطور</small></div>
+    </button>
+  </div>
+</div>
+
+<!-- ═══════ HOW TO PLAY ═══════ -->
+<div class="screen" id="screen-how">
+  <div class="screen-header"><button class="back-btn" onclick="showScreen('screen-menu')">← رجوع</button></div>
+  <div class="screen-inner">
+    <div class="card-title" style="font-size:1.35rem;justify-content:center;margin-bottom:14px;">📖 كيف تلعب؟</div>
+    <div class="how-to-step"><div class="step-num">1</div><div class="step-text"><strong>اختر نمط اللعب</strong><br>نمط الأسئلة: اللاعبون يسألون بعضهم. نمط الوصف: كل لاعب يصف الكلمة بدوره.</div></div>
+    <div class="how-to-step"><div class="step-num">2</div><div class="step-text"><strong>أدخل أسماء اللاعبين</strong><br>الحد الأدنى 3 لاعبين.</div></div>
+    <div class="how-to-step"><div class="step-num">3</div><div class="step-text"><strong>اختر عدد الكذابين</strong><br>كذاب لـ 3+، كذابان لـ 5+، ثلاثة لـ 6+ لاعبين.</div></div>
+    <div class="how-to-step"><div class="step-num">4</div><div class="step-text"><strong>توزيع الكلمة السرية</strong><br>كل لاعب يأخذ الهاتف بشكل سري. الكذاب لا يرى الكلمة!</div></div>
+    <div class="how-to-step"><div class="step-num">5</div><div class="step-text"><strong>مرحلة اللعب</strong><br>أسئلة: اسألوا بعضكم. وصف: كل لاعب يصف الكلمة بجملة واحدة فقط دون ذكرها.</div></div>
+    <div class="how-to-step"><div class="step-num">6</div><div class="step-text"><strong>التصويت والفوز</strong><br>صوتوا لمن تعتقدون أنه الكذاب.<br>اكتُشف الكذاب ← اللاعبون يفوزون 🎉 | نجا الكذاب ← الكذاب يفوز 😈</div></div>
+    <button class="btn btn-primary" style="margin-top:12px;" onclick="showScreen('screen-players')">🎮 ابدأ اللعبة</button>
+    <button class="btn btn-secondary" onclick="showScreen('screen-menu')">رجوع للقائمة</button>
+  </div>
+</div>
+
+<!-- ═══════ SETTINGS ═══════ -->
+<div class="screen" id="screen-settings">
+  <div class="screen-header"><button class="back-btn" onclick="showScreen('screen-menu')">← رجوع</button></div>
+  <div class="screen-inner">
+    <div class="card-title" style="font-size:1.35rem;justify-content:center;margin-bottom:14px;">⚙️ الإعدادات</div>
+    <div class="card">
+      <div class="setting-row">
+        <div><div style="font-weight:700;">الصوت</div><div style="font-size:.77rem;color:var(--text-muted);">تفعيل أصوات اللعبة</div></div>
+        <div class="toggle on" id="toggle-sound" onclick="toggleSetting('sound')"></div>
+      </div>
+      <div class="setting-row">
+        <div><div style="font-weight:700;">الاهتزاز</div><div style="font-size:.77rem;color:var(--text-muted);">اهتزاز الهاتف عند الأحداث</div></div>
+        <div class="toggle on" id="toggle-vibrate" onclick="toggleSetting('vibrate')"></div>
+      </div>
+      <div class="setting-row">
+        <div><div style="font-weight:700;">حجم الخط</div><div style="font-size:.77rem;color:var(--text-muted);" id="font-size-label">100%</div></div>
+        <div class="slider-row">
+          <span style="font-size:.8rem;">أ</span>
+          <input type="range" min="80" max="130" value="100" id="font-slider" oninput="changeFontSize(this.value)">
+          <span style="font-size:1.2rem;">أ</span>
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-secondary" onclick="showScreen('screen-menu')">رجوع للقائمة</button>
+  </div>
+</div>
+
+<!-- ═══════ CREDITS ═══════ -->
+<div class="screen" id="screen-credits">
+  <div class="screen-header"><button class="back-btn" onclick="showScreen('screen-menu')">← رجوع</button></div>
+  <div class="screen-inner" style="text-align:center;">
+    <div style="font-size:3.5rem;margin:14px 0;">👨‍💻</div>
+    <div class="section-label">المطور</div>
+    <div class="big-name" style="font-size:1.6rem;margin:7px 0;">Tamim Majed Aljabri</div>
+    <div style="color:var(--text-muted);font-size:.88rem;line-height:2;">تميم ماجد الجابري<br>مطور لعبة الكذاب<br><span style="color:var(--accent);">Al-Kadhab Game</span></div>
+    <div class="divider"></div>
+    <div class="card" style="text-align:right;">
+      <div class="card-title">🎮 حول اللعبة</div>
+      <div style="font-size:.87rem;color:var(--text-muted);line-height:1.8;">الكذاب هي لعبة اجتماعية ممتعة تُلعب مع الأصدقاء باستخدام هاتف واحد. تتوفر في نمطين: الأسئلة والوصف!</div>
+    </div>
+    <button class="btn btn-primary" onclick="showScreen('screen-menu')">العودة للقائمة الرئيسية</button>
+  </div>
+</div>
+
+<!-- ═══════ PLAYER NAMES ═══════ -->
+<div class="screen" id="screen-players">
+  <div class="screen-header"><button class="back-btn" onclick="showScreen('screen-menu')">← رجوع</button></div>
+  <div class="screen-inner">
+    <div class="card-title" style="font-size:1.25rem;justify-content:center;margin-bottom:4px;">👤 أسماء اللاعبين</div>
+    <div class="hint">الحد الأدنى 3 لاعبين</div>
+    <div class="card" style="margin-top:8px;">
+      <div style="display:flex;gap:8px;">
+        <input type="text" id="player-input" placeholder="أدخل اسم اللاعب..." maxlength="15" onkeypress="if(event.key==='Enter')addPlayer()">
+        <button class="btn btn-primary" style="width:auto;padding:12px 14px;margin:0;" onclick="addPlayer()">+</button>
+      </div>
+      <div class="players-list" id="players-list" style="min-height:40px;margin-top:10px;"></div>
+    </div>
+    <button class="btn btn-primary" onclick="goToMode()" id="start-btn" disabled>التالي: نمط اللعبة →</button>
+  </div>
+</div>
+
+<!-- ═══════ GAME MODE ═══════ -->
+<div class="screen" id="screen-mode">
+  <div class="screen-header"><button class="back-btn" onclick="showScreen('screen-players')">← رجوع</button></div>
+  <div class="screen-inner">
+    <div class="card-title" style="font-size:1.25rem;justify-content:center;margin-bottom:4px;">🎮 اختر نمط اللعبة</div>
+    <div class="hint">كل نمط له طريقة مختلفة لكشف الكذاب</div>
+    <div class="mode-card mode-questions selected" id="mode-q" onclick="selectMode('questions')" style="margin-top:10px;">
+      <div class="mode-check">✓</div>
+      <div class="mode-card-title">❓ نمط الأسئلة</div>
+      <div class="mode-card-desc">اللاعبون يسألون بعضهم أسئلة بشكل عشوائي. حاول كشف الكذاب من إجاباته!</div>
+    </div>
+    <div class="mode-card mode-desc" id="mode-d" onclick="selectMode('describe')">
+      <div class="mode-check"></div>
+      <div class="mode-card-title" style="color:var(--purple);">💬 نمط الوصف</div>
+      <div class="mode-card-desc">كل لاعب يصف الكلمة السرية بدوره بجملة واحدة فقط دون ذكرها مباشرة. الكذاب يحاول التأقلم!</div>
+    </div>
+    <button class="btn btn-primary" onclick="goToLiarCount()" style="margin-top:10px;">التالي: عدد الكذابين →</button>
+  </div>
+</div>
+
+<!-- ═══════ LIAR COUNT ═══════ -->
+<div class="screen" id="screen-liar-count">
+  <div class="screen-header"><button class="back-btn" onclick="showScreen('screen-mode')">← رجوع</button></div>
+  <div class="screen-inner" style="text-align:center;">
+    <div class="emoji-big">🕵️</div>
+    <div class="card-title" style="font-size:1.25rem;justify-content:center;">كم عدد الكذابين؟</div>
+    <div class="number-selector">
+      <button class="num-btn" onclick="changeLiarCount(-1)">−</button>
+      <div class="num-display" id="liar-count-display">1</div>
+      <button class="num-btn" onclick="changeLiarCount(1)">+</button>
+    </div>
+    <div class="hint" id="liar-hint"></div>
+    <div class="card" style="text-align:right;margin-top:10px;">
+      <div class="card-title">📋 القواعد</div>
+      <div style="font-size:.87rem;color:var(--text-muted);line-height:2.1;">🔴 3+ لاعبين → كذاب واحد<br>🟡 5+ لاعبين → كذابان<br>🟢 6+ لاعبين → 3 كذابين</div>
+    </div>
+    <button class="btn btn-primary" style="margin-top:10px;" onclick="startGame()">🎮 ابدأ اللعبة!</button>
+  </div>
+</div>
+
+<!-- ═══════ GAME INTRO ═══════ -->
+<div class="screen" id="screen-game-intro">
+  <div class="screen-inner" style="justify-content:center;text-align:center;">
+    <div class="emoji-big">📱</div>
+    <div class="big-name" style="font-size:clamp(1.4rem,5vw,2rem);">تعليمات اللعبة</div>
+    <div id="intro-mode-badge"></div>
+    <div class="card" style="text-align:right;margin:12px 0;">
+      <div id="intro-rules" style="font-size:.88rem;color:var(--text-muted);line-height:2.2;"></div>
+    </div>
+    <button class="btn btn-gold" onclick="nextPlayerWord()">ابدأ توزيع الكلمات →</button>
+  </div>
+</div>
+
+<!-- ═══════ PASS PHONE ═══════ -->
+<div class="screen" id="screen-pass-phone">
+  <div class="screen-inner" style="justify-content:center;text-align:center;">
+    <div style="font-size:clamp(.95rem,3vw,1.1rem);color:var(--text-muted);">مرر الهاتف إلى</div>
+    <div class="big-name" id="pass-to-name">---</div>
+    <div class="emoji-big">📱</div>
+    <div class="hint">اضغط التالي عندما يكون الهاتف عنده</div>
+    <button class="btn btn-primary" style="margin-top:14px;" onclick="showPlayerWord()">التالي →</button>
+  </div>
+</div>
+
+<!-- ═══════ SHOW WORD ═══════ -->
+<div class="screen" id="screen-show-word">
+  <div class="screen-inner" style="justify-content:center;">
+    <div class="big-display">
+      <div style="font-size:.93rem;color:var(--text-muted);">كلمتك السرية</div>
+      <div id="word-display"></div>
+      <div class="hint" id="word-hint"></div>
+      <div class="progress-bar"><div class="progress-fill" id="word-progress"></div></div>
+      <div class="hint" id="word-progress-text"></div>
+      <button class="btn btn-secondary" style="margin-top:10px;" onclick="doneReadingWord()">حفظت الكلمة ✓</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ QUESTION PHASE ═══════ -->
+<div class="screen" id="screen-questions">
+  <div class="screen-inner">
+    <div class="phase-indicator">
+      <div class="phase-dot done"></div>
+      <div class="phase-dot active"></div>
+      <div class="phase-dot"></div>
+    </div>
+    <div style="text-align:center;"><div class="mode-badge questions">❓ نمط الأسئلة</div></div>
+    <div class="card-title" style="font-size:1.2rem;justify-content:center;">مرحلة الأسئلة</div>
+    <div class="hint" id="question-counter"></div>
+    <div class="action-panel">
+      <div class="panel-actor" id="q-asker">---</div>
+      <div class="panel-arrow">⬇️</div>
+      <div class="panel-label">يسأل</div>
+      <div class="panel-target" id="q-askee">---</div>
+    </div>
+    <div class="hint">اسأل سؤالاً ذكياً لكشف الكذاب دون كشف الكلمة!</div>
+    <button class="btn btn-primary" style="margin-top:10px;" onclick="nextQuestion()">السؤال التالي →</button>
+    <button class="btn btn-secondary" onclick="goToVoting()">انتقل للتصويت ⏩</button>
+  </div>
+</div>
+
+<!-- ═══════ DESCRIBE PHASE ═══════ -->
+<div class="screen" id="screen-describe">
+  <div class="screen-inner">
+    <div class="phase-indicator">
+      <div class="phase-dot done"></div>
+      <div class="phase-dot active purple"></div>
+      <div class="phase-dot"></div>
+    </div>
+    <div style="text-align:center;"><div class="mode-badge describe">💬 نمط الوصف</div></div>
+    <div class="card-title" style="font-size:1.2rem;justify-content:center;color:var(--purple);">مرحلة الوصف</div>
+    <div class="hint" id="describe-counter"></div>
+    <div class="describe-card">
+      <div class="describe-turn-label">دور</div>
+      <div class="describe-name" id="d-current-player">---</div>
+      <div class="describe-turn-label">يصف الكلمة السرية الآن</div>
+      <div class="describe-tip">💡 <strong>تعليمات:</strong> صف الكلمة بجملة واحدة فقط.<br>لا تقل الكلمة مباشرة، ولا كلمات قريبة جداً منها!</div>
+    </div>
+    <button class="btn btn-purple" style="margin-top:10px;" onclick="nextDescribe()">التالي →</button>
+    <button class="btn btn-secondary" onclick="goToVoting()">انتقل للتصويت ⏩</button>
+  </div>
+</div>
+
+<!-- ═══════ VOTING ═══════ -->
+<div class="screen" id="screen-voting">
+  <div class="screen-inner">
+    <div class="phase-indicator">
+      <div class="phase-dot done"></div>
+      <div class="phase-dot done"></div>
+      <div class="phase-dot active"></div>
+    </div>
+    <div class="card-title" style="font-size:1.2rem;justify-content:center;">🗳️ مرحلة التصويت</div>
+    <div style="text-align:center;margin-bottom:8px;">
+      <div style="font-size:.88rem;color:var(--text-muted);">من يصوت الآن؟</div>
+      <div class="panel-actor" id="current-voter" style="font-size:clamp(1.3rem,5vw,1.6rem);">---</div>
+    </div>
+    <div class="hint">من تعتقد أنه الكذاب؟</div>
+    <div id="vote-buttons" style="width:100%;"></div>
+  </div>
+</div>
+
+<!-- ═══════ RESULTS ═══════ -->
+<div class="screen" id="screen-results">
+  <div class="screen-inner">
+    <div id="result-content"></div>
+    <div class="card" style="margin-top:10px;">
+      <div class="card-title">📊 نتائج التصويت</div>
+      <div id="vote-tally"></div>
+    </div>
+    <button class="btn btn-gold" style="margin-top:10px;" onclick="restartGame()">🔄 جولة جديدة</button>
+    <button class="btn btn-secondary" onclick="showScreen('screen-menu')">القائمة الرئيسية</button>
+  </div>
+</div>
+
+</div><!-- #app -->
+<script>
+// ══════════════════════════════════════════
+//  WORD BANK  (200+ words)
+// ══════════════════════════════════════════
+const words = [
+  // أشياء منزلية
+  'منشفة','مرآة','ثلاجة','مصباح','تلفزيون','كرسي','طاولة','باب','نافذة',
+  'سرير','وسادة','بطانية','صنبور','غسالة','مكنسة','مقلاة','كوب','طبق',
+  'ملعقة','شوكة','سكين','إبريق','خزانة','رف','ستارة','مفتاح','قفل',
+  'مروحة','مكيف','جرس','مرتبة','دولاب',
+  // طعام وشراب
+  'برتقالة','تفاحة','موزة','بطيخ','عنب','فراولة','خبز','أرز','دجاج',
+  'بيضة','جبن','لبن','قهوة','شاي','عصير','شوكولاتة','تمر','رمان','فلفل',
+  'ثوم','بصل','طماطم','جزرة','بطاطا','ملح','سكر','زيت','عسل','مكرونة',
+  'كنافة','حلوى','مشروب','فطيرة','أيسكريم','كيكة','سمبوسة',
+  // طبيعة وبيئة
+  'شمس','قمر','نجمة','غيمة','مطر','ثلج','جبل','بحر','نهر','شجرة',
+  'وردة','زهرة','عشب','رمل','صخرة','قوس قزح','برق','ريح','ضباب',
+  'صحراء','غابة','شلال','بركة','نخلة','كهف','جزيرة','بركان',
+  // حيوانات
+  'حصان','أسد','فيل','قرد','تمساح','زرافة','نمر','ذئب','ثعلب','أرنب',
+  'سمكة','طائر','دجاجة','قطة','كلب','بقرة','غنم','جمل','فراشة','نحلة',
+  'ببغاء','أخطبوط','سلحفاة','دب','حوت','دلفين','كنغر','بطريق','غراب',
+  'عقرب','حية','ضبع','فهد','طاووس',
+  // وسائل نقل
+  'سيارة','طائرة','سفينة','قطار','دراجة','باص','قارب','هليكوبتر','مترو',
+  'تاكسي','شاحنة','موتوسيكل','غواصة','صاروخ','ترام',
+  // تكنولوجيا
+  'هاتف','كمبيوتر','لوحة مفاتيح','طابعة','شاشة','سماعات','كاميرا',
+  'ساعة ذكية','تابلت','راديو','ريموت','بروجكتور',
+  // رياضة وترفيه
+  'كرة قدم','مسبح','شطرنج','ورق لعب','سينما','كتاب','قلم',
+  'مسرح','طبلة','غيتار','بيانو','ألعاب فيديو','ملعب','تنس',
+  'كرة سلة','كرة طائرة','رياضة','ملاكمة','سباحة',
+  // ملابس وأزياء
+  'حذاء','قميص','بنطلون','قبعة','نظارة','ساعة يد','حقيبة','عباية',
+  'كوفية','قفاز','شال','حزام','جاكيت','عطر',
+  // أماكن
+  'مدرسة','مستشفى','مسجد','ملعب','مطعم','متحف','سوق','فندق',
+  'مطار','حديقة','مكتبة','بنك','صيدلية','ميناء','شاطئ',
+  'مول','مخبز','مصنع','محطة','مرصد',
+  // متنوعة
+  'سيف','مظلة','خيمة','حبل','بالون','قارورة','خريطة',
+  'بوصلة','تلسكوب','مجهر','ميزان','ساعة رمل','صندوق',
+  'جسر','برج','قلعة','تاج','درع','علم','مشعل','شمعة',
+  'لغز','ألغاز','خريطة كنز','ميدالية','جائزة','كأس'
+];
+
+// ══════════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════════
+let settings  = { sound:true, vibrate:true };
+let players   = [];
+let gameMode  = 'questions';
+let liarCount = 1;
+let liars     = [];
+let secretWord= '';
+let currentPlayerIndex = 0;
+let votes={}, hasVoted={};
+let questionPairs=[], questionIndex=0;
+let describeOrder=[], describeIndex=0;
+let voterIndex=0;
+
+// ══════════════════════════════════════════
+//  PARTICLES
+// ══════════════════════════════════════════
+(function(){
+  const c=document.getElementById('particles');
+  for(let i=0;i<28;i++){
+    const p=document.createElement('div'); p.className='particle';
+    p.style.cssText=`left:${Math.random()*100}%;animation-duration:${9+Math.random()*12}s;animation-delay:${Math.random()*12}s;--drift:${(Math.random()-.5)*120}px;width:${1+Math.random()*2}px;height:${1+Math.random()*2}px;background:${Math.random()>.5?'var(--accent)':'var(--gold)'};`;
+    c.appendChild(p);
+  }
+})();
+
+// ══════════════════════════════════════════
+//  SCREEN NAV
+// ══════════════════════════════════════════
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const inner=document.querySelector('#'+id+' .screen-inner');
+  if(inner) inner.scrollTop=0;
+}
+
+// ══════════════════════════════════════════
+//  SETTINGS
+// ══════════════════════════════════════════
+function toggleSetting(key){
+  settings[key]=!settings[key];
+  document.getElementById('toggle-'+key).classList.toggle('on',settings[key]);
+}
+function changeFontSize(val){
+  document.documentElement.style.fontSize=(val/100)*16+'px';
+  document.getElementById('font-size-label').textContent=val+'%';
+}
+
+// ══════════════════════════════════════════
+//  PLAYERS
+// ══════════════════════════════════════════
+function addPlayer(){
+  const inp=document.getElementById('player-input');
+  const name=inp.value.trim();
+  if(!name||players.includes(name)){inp.value='';return;}
+  players.push(name); inp.value='';
+  renderPlayers(); updateStartBtn();
+}
+function removePlayer(name){
+  players=players.filter(p=>p!==name);
+  renderPlayers(); updateStartBtn();
+}
+function renderPlayers(){
+  document.getElementById('players-list').innerHTML=
+    players.map(n=>`<div class="player-tag">${n}<span class="remove" onclick="removePlayer('${n}')">×</span></div>`).join('');
+}
+function updateStartBtn(){
+  document.getElementById('start-btn').disabled=players.length<3;
+}
+
+// ══════════════════════════════════════════
+//  MODE
+// ══════════════════════════════════════════
+function goToMode(){ showScreen('screen-mode'); }
+function selectMode(mode){
+  gameMode=mode;
+  document.getElementById('mode-q').classList.toggle('selected',mode==='questions');
+  document.getElementById('mode-d').classList.toggle('selected',mode==='describe');
+}
+
+// ══════════════════════════════════════════
+//  LIAR COUNT
+// ══════════════════════════════════════════
+function goToLiarCount(){ liarCount=1; updateLiarDisplay(); showScreen('screen-liar-count'); }
+function changeLiarCount(d){
+  const max=players.length>=6?3:players.length>=5?2:1;
+  liarCount=Math.max(1,Math.min(max,liarCount+d));
+  updateLiarDisplay();
+}
+function updateLiarDisplay(){
+  document.getElementById('liar-count-display').textContent=liarCount;
+  const h=['','كذاب واحد لـ 3+ لاعبين','كذابان لـ 5+ لاعبين','ثلاثة كذابين لـ 6+ لاعبين'];
+  document.getElementById('liar-hint').textContent=h[liarCount]||'';
+}
+
+// ══════════════════════════════════════════
+//  START
+// ══════════════════════════════════════════
+function startGame(){
+  secretWord=words[Math.floor(Math.random()*words.length)];
+  const sh=[...players].sort(()=>Math.random()-.5);
+  liars=sh.slice(0,liarCount);
+  currentPlayerIndex=0; votes={}; hasVoted={};
+  if(gameMode==='questions') generateQuestions();
+  else generateDescribeOrder();
+
+  const badge=document.getElementById('intro-mode-badge');
+  const rules=document.getElementById('intro-rules');
+  if(gameMode==='questions'){
+    badge.innerHTML='<div class="mode-badge questions" style="display:inline-flex;margin:5px auto;">❓ نمط الأسئلة</div>';
+    rules.innerHTML='✅ سيُعطى كل لاعب الهاتف بشكل سري<br>👁️ اقرأ الكلمة ولا تريها لأحد<br>😈 الكذاب سيرى رسالة مختلفة<br>❓ بعد التوزيع تبدأ جولة الأسئلة';
+  } else {
+    badge.innerHTML='<div class="mode-badge describe" style="display:inline-flex;margin:5px auto;">💬 نمط الوصف</div>';
+    rules.innerHTML='✅ سيُعطى كل لاعب الهاتف بشكل سري<br>👁️ اقرأ الكلمة ولا تريها لأحد<br>😈 الكذاب لا يعرف الكلمة الحقيقية<br>💬 بعد التوزيع كل لاعب يصف الكلمة بدوره بجملة واحدة';
+  }
+  showScreen('screen-game-intro');
+}
+function restartGame(){ startGame(); }
+
+function generateQuestions(){
+  questionPairs=[];
+  const sh=[...players].sort(()=>Math.random()-.5);
+  for(let i=0;i<sh.length;i++){
+    const a=sh[i],b=sh[(i+1)%sh.length];
+    if(a!==b) questionPairs.push({asker:a,askee:b});
+  }
+  for(let i=0;i<players.length;i++){
+    const a=players[Math.floor(Math.random()*players.length)];
+    const b=players[Math.floor(Math.random()*players.length)];
+    if(a!==b) questionPairs.push({asker:a,askee:b});
+  }
+  questionIndex=0;
+}
+function generateDescribeOrder(){
+  describeOrder=[...players].sort(()=>Math.random()-.5);
+  describeIndex=0;
+}
+
+// ══════════════════════════════════════════
+//  WORD DISTRIBUTION
+// ══════════════════════════════════════════
+function nextPlayerWord(){
+  if(currentPlayerIndex>=players.length){
+    questionIndex=0; describeIndex=0;
+    if(gameMode==='questions') showQuestionPhase();
+    else showDescribePhase();
+    return;
+  }
+  document.getElementById('pass-to-name').textContent=players[currentPlayerIndex];
+  showScreen('screen-pass-phone'); vibrate();
+}
+function showPlayerWord(){
+  const name=players[currentPlayerIndex];
+  const isLiar=liars.includes(name);
+  document.getElementById('word-display').innerHTML=isLiar
+    ?`<div class="liar-badge">😈 أنت الكذاب!</div>`
+    :`<div class="big-word">${secretWord}</div>`;
+  document.getElementById('word-hint').textContent=isLiar
+    ?'لا تعرف الكلمة الحقيقية. حاول أن تتظاهر!'
+    :'احفظ الكلمة ولا تريها لأحد!';
+  const prog=((currentPlayerIndex+1)/players.length)*100;
+  document.getElementById('word-progress').style.width=prog+'%';
+  document.getElementById('word-progress-text').textContent=`اللاعب ${currentPlayerIndex+1} من ${players.length}`;
+  showScreen('screen-show-word'); vibrate();
+}
+function doneReadingWord(){ currentPlayerIndex++; nextPlayerWord(); }
+
+// ══════════════════════════════════════════
+//  QUESTION PHASE
+// ══════════════════════════════════════════
+function showQuestionPhase(){ showQPair(); showScreen('screen-questions'); }
+function showQPair(){
+  const pair=questionPairs[questionIndex%questionPairs.length];
+  document.getElementById('q-asker').textContent=pair.asker;
+  document.getElementById('q-askee').textContent=pair.askee;
+  document.getElementById('question-counter').textContent=`السؤال ${questionIndex+1} من ${questionPairs.length}`;
+}
+function nextQuestion(){
+  questionIndex++;
+  if(questionIndex>=questionPairs.length) goToVoting();
+  else showQPair();
+}
+
+// ══════════════════════════════════════════
+//  DESCRIBE PHASE
+// ══════════════════════════════════════════
+function showDescribePhase(){ showDescribeTurn(); showScreen('screen-describe'); }
+function showDescribeTurn(){
+  const name=describeOrder[describeIndex%describeOrder.length];
+  document.getElementById('d-current-player').textContent=name;
+  document.getElementById('describe-counter').textContent=`الدور ${describeIndex+1} من ${describeOrder.length}`;
+}
+function nextDescribe(){
+  describeIndex++;
+  if(describeIndex>=describeOrder.length) goToVoting();
+  else showDescribeTurn();
+}
+
+// ══════════════════════════════════════════
+//  VOTING
+// ══════════════════════════════════════════
+function goToVoting(){
+  voterIndex=0; votes={}; players.forEach(p=>{votes[p]=0;hasVoted[p]=false;});
+  showVoter(); showScreen('screen-voting');
+}
+function showVoter(){
+  if(voterIndex>=players.length){showResults();return;}
+  const voter=players[voterIndex];
+  document.getElementById('current-voter').textContent=voter;
+  document.getElementById('vote-buttons').innerHTML=
+    players.filter(p=>p!==voter).map(p=>`
+      <button class="vote-btn" onclick="castVote('${voter}','${p}')">
+        <span>${p}</span><span style="font-size:1.2rem;">🎯</span>
+      </button>`).join('');
+}
+function castVote(voter,target){
+  votes[target]=(votes[target]||0)+1; hasVoted[voter]=true;
+  voterIndex++; showVoter();
+}
+
+// ══════════════════════════════════════════
+//  RESULTS
+// ══════════════════════════════════════════
+function showResults(){
+  let maxVotes=0,eliminated='';
+  Object.entries(votes).forEach(([n,v])=>{if(v>maxVotes){maxVotes=v;eliminated=n;}});
+  const liarWin=!liars.includes(eliminated);
+  const modeBadge=`<div class="mode-badge ${gameMode==='questions'?'questions':'describe'}" style="display:inline-flex;margin:4px auto 8px;">${gameMode==='questions'?'❓ نمط الأسئلة':'💬 نمط الوصف'}</div>`;
+
+  document.getElementById('result-content').innerHTML=liarWin?`
+    <div class="result-icon">😈</div>${modeBadge}
+    <div class="result-title" style="color:var(--accent);">الكذاب يفوز!</div>
+    <div class="hint">تم إقصاء <strong>${eliminated}</strong> لكنه ليس الكذاب</div>
+    <div class="card" style="margin-top:8px;text-align:center;">
+      <div style="font-size:.83rem;color:var(--text-muted);">الكلمة السرية كانت</div>
+      <div class="big-word">${secretWord}</div>
+      <div style="font-size:.83rem;color:var(--text-muted);">الكذاب${liars.length>1?'ون':''}: <strong style="color:var(--accent);">${liars.join('، ')}</strong></div>
+    </div>`:
+    `<div class="result-icon">🎉</div>${modeBadge}
+    <div class="result-title" style="color:var(--success);">اللاعبون العاديون يفوزون!</div>
+    <div class="hint">تم اكتشاف الكذاب: <strong>${eliminated}</strong></div>
+    <div class="card" style="margin-top:8px;text-align:center;">
+      <div style="font-size:.83rem;color:var(--text-muted);">الكلمة السرية كانت</div>
+      <div class="big-word">${secretWord}</div>
+      <div style="font-size:.83rem;color:var(--text-muted);">الكذاب${liars.length>1?'ون':''}: <strong style="color:var(--accent);">${liars.join('، ')}</strong></div>
+    </div>`;
+
+  const sorted=Object.entries(votes).sort((a,b)=>b[1]-a[1]);
+  document.getElementById('vote-tally').innerHTML=sorted.map(([n,v])=>`
+    <div class="vote-tally">
+      <div style="flex:1;">
+        <div style="font-weight:700;">${n} ${liars.includes(n)?'😈':''}</div>
+        <div class="vote-tally-bar" style="width:${maxVotes>0?Math.max(20,(v/maxVotes)*150):20}px;"></div>
+      </div>
+      <div style="font-size:1.15rem;font-weight:900;color:${v===maxVotes?'var(--accent)':'var(--text-muted)'};">${v} 🗳️</div>
+    </div>`).join('');
+
+  showScreen('screen-results'); vibrate([100,50,200]);
+}
+
+// ══════════════════════════════════════════
+//  UTILS
+// ══════════════════════════════════════════
+function vibrate(p=[80]){ if(settings.vibrate&&navigator.vibrate) navigator.vibrate(p); }
+
+// Init
+updateStartBtn();
+</script>
+</body>
+</html>
