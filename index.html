@@ -6,387 +6,389 @@
 <title>الكذاب - Al-Kadhab</title>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&family=Cairo:wght@400;600;900&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #0a0a0f;
-    --surface: #12121a;
-    --surface2: #1a1a28;
-    --accent: #ff3c5a;
-    --accent2: #ff7c3a;
-    --gold: #ffd700;
-    --purple: #a855f7;
-    --text: #f0edf8;
-    --text-muted: #8884aa;
-    --border: #2a2a40;
-    --success: #2ecc71;
-    --glow: 0 0 30px rgba(255,60,90,0.3);
-  }
-  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-  html,body { width:100%; height:100%; font-family:'Cairo',sans-serif; background:var(--bg); color:var(--text); overflow:hidden; }
-  body::before { content:''; position:fixed; inset:0; background:radial-gradient(ellipse at 20% 20%,rgba(255,60,90,.08) 0%,transparent 60%),radial-gradient(ellipse at 80% 80%,rgba(120,60,255,.08) 0%,transparent 60%); pointer-events:none; z-index:0; }
+:root{
+  --bg:#0a0a0f;--surface:#12121a;--surface2:#1a1a28;
+  --accent:#ff3c5a;--accent2:#ff7c3a;--gold:#ffd700;--purple:#a855f7;
+  --text:#f0edf8;--text-muted:#8884aa;--border:#2a2a40;--success:#2ecc71;
+  --glow:0 0 30px rgba(255,60,90,.3);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{width:100%;height:100%;font-family:'Cairo',sans-serif;background:var(--bg);color:var(--text);overflow:hidden;}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 20% 20%,rgba(255,60,90,.08) 0%,transparent 60%),radial-gradient(ellipse at 80% 80%,rgba(120,60,255,.08) 0%,transparent 60%);pointer-events:none;z-index:0;}
 
-  /* PARTICLES */
-  .particles { position:fixed; inset:0; overflow:hidden; z-index:0; pointer-events:none; }
-  .particle { position:absolute; width:2px; height:2px; border-radius:50%; opacity:0; animation:floatUp linear infinite; }
-  @keyframes floatUp { 0%{transform:translateY(100vh) translateX(0);opacity:0} 10%{opacity:.6} 90%{opacity:.3} 100%{transform:translateY(-10vh) translateX(var(--drift));opacity:0} }
+/* PARTICLES */
+.particles{position:fixed;inset:0;overflow:hidden;z-index:0;pointer-events:none;}
+.particle{position:absolute;width:2px;height:2px;border-radius:50%;opacity:0;animation:floatUp linear infinite;}
+@keyframes floatUp{0%{transform:translateY(100vh) translateX(0);opacity:0}10%{opacity:.6}90%{opacity:.3}100%{transform:translateY(-10vh) translateX(var(--drift));opacity:0}}
 
-  /* APP SHELL */
-  #app { position:fixed; inset:0; display:flex; align-items:center; justify-content:center; z-index:1; }
+/* APP SHELL */
+#app{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:1;}
 
-  /* SCREENS */
-  .screen { display:none; width:100%; height:100%; max-width:560px; max-height:100vh; flex-direction:column; align-items:center; overflow:hidden; position:relative; animation:fadeIn .35s ease; }
-  .screen.active { display:flex; }
-  @keyframes fadeIn { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+/* SCREENS */
+.screen{display:none;width:100%;height:100%;max-width:560px;max-height:100vh;flex-direction:column;align-items:center;overflow:hidden;position:relative;animation:fadeIn .35s ease;}
+.screen.active{display:flex;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.screen-inner{width:100%;flex:1;overflow-y:auto;overflow-x:hidden;padding:18px 17px 28px;display:flex;flex-direction:column;align-items:center;}
+.screen-inner::-webkit-scrollbar{width:3px;}
+.screen-inner::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+.screen-header{width:100%;padding:12px 17px 0;display:flex;align-items:center;flex-shrink:0;min-height:48px;}
 
-  .screen-inner { width:100%; flex:1; overflow-y:auto; overflow-x:hidden; padding:20px 18px 28px; display:flex; flex-direction:column; align-items:center; }
-  .screen-inner::-webkit-scrollbar { width:3px; }
-  .screen-inner::-webkit-scrollbar-thumb { background:var(--border); border-radius:2px; }
+/* LOGO */
+.logo{font-family:'Tajawal',sans-serif;font-size:clamp(2.8rem,10vw,4.5rem);font-weight:900;background:linear-gradient(135deg,var(--accent),var(--accent2),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-align:center;letter-spacing:-2px;line-height:1;filter:drop-shadow(0 0 20px rgba(255,60,90,.5));}
+.logo-sub{font-size:clamp(.72rem,2.5vw,1rem);color:var(--text-muted);text-align:center;margin-top:5px;letter-spacing:3px;text-transform:uppercase;}
 
-  .screen-header { width:100%; padding:12px 18px 0; display:flex; align-items:center; flex-shrink:0; min-height:48px; }
+/* CARD */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:17px 15px;width:100%;margin:6px 0;}
+.card-title{font-size:1.05rem;font-weight:700;margin-bottom:11px;color:var(--text);display:flex;align-items:center;gap:9px;}
 
-  /* LOGO */
-  .logo { font-family:'Tajawal',sans-serif; font-size:clamp(3rem,10vw,4.5rem); font-weight:900; background:linear-gradient(135deg,var(--accent),var(--accent2),var(--gold)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; text-align:center; letter-spacing:-2px; line-height:1; filter:drop-shadow(0 0 20px rgba(255,60,90,.5)); }
-  .logo-sub { font-size:clamp(.75rem,2.5vw,1rem); color:var(--text-muted); text-align:center; margin-top:6px; letter-spacing:3px; text-transform:uppercase; }
+/* BUTTONS */
+.btn{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;padding:13px 20px;border:none;border-radius:14px;font-family:'Cairo',sans-serif;font-size:clamp(.9rem,2.5vw,1.03rem);font-weight:700;cursor:pointer;transition:all .17s ease;margin:4px 0;position:relative;overflow:hidden;}
+.btn::after{content:'';position:absolute;inset:0;background:rgba(255,255,255,.1);opacity:0;transition:opacity .2s;}
+.btn:hover::after{opacity:1;}
+.btn:active{transform:scale(.96);}
+.btn-primary {background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;box-shadow:var(--glow);}
+.btn-secondary{background:var(--surface2);color:var(--text);border:1px solid var(--border);}
+.btn-gold    {background:linear-gradient(135deg,#ffd700,#ff9500);color:#1a0a00;}
+.btn-success {background:linear-gradient(135deg,#2ecc71,#27ae60);color:#fff;}
+.btn-purple  {background:linear-gradient(135deg,#a855f7,#7c3aed);color:#fff;box-shadow:0 0 22px rgba(168,85,247,.35);}
+.btn-blue    {background:linear-gradient(135deg,#3b82f6,#1d4ed8);color:#fff;box-shadow:0 0 22px rgba(59,130,246,.3);}
 
-  /* CARDS */
-  .card { background:var(--surface); border:1px solid var(--border); border-radius:20px; padding:18px 16px; width:100%; margin:7px 0; }
-  .card-title { font-size:1.1rem; font-weight:700; margin-bottom:12px; color:var(--text); display:flex; align-items:center; gap:10px; }
+/* MENU BUTTONS */
+.menu-btn{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:13px 15px;cursor:pointer;transition:all .22s ease;margin:5px 0;display:flex;align-items:center;gap:13px;color:var(--text);font-family:'Cairo',sans-serif;font-size:clamp(.9rem,2.5vw,1rem);font-weight:600;width:100%;}
+.menu-btn:hover{border-color:var(--accent);background:var(--surface2);transform:translateX(-4px);box-shadow:4px 0 0 var(--accent);}
+.menu-btn .icon{width:43px;height:43px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;}
+.menu-btn .icon.red   {background:rgba(255,60,90,.15);}
+.menu-btn .icon.blue  {background:rgba(60,130,255,.15);}
+.menu-btn .icon.green {background:rgba(46,204,113,.15);}
+.menu-btn .icon.yellow{background:rgba(255,215,0,.15);}
+.menu-btn .text{flex:1;text-align:right;}
+.menu-btn .text small{display:block;font-size:.73rem;color:var(--text-muted);font-weight:400;margin-top:2px;}
 
-  /* BUTTONS */
-  .btn { display:flex; align-items:center; justify-content:center; gap:10px; width:100%; padding:14px 22px; border:none; border-radius:14px; font-family:'Cairo',sans-serif; font-size:clamp(.93rem,2.5vw,1.05rem); font-weight:700; cursor:pointer; transition:all .18s ease; margin:4px 0; position:relative; overflow:hidden; }
-  .btn::after { content:''; position:absolute; inset:0; background:rgba(255,255,255,.1); opacity:0; transition:opacity .2s; }
-  .btn:hover::after { opacity:1; }
-  .btn:active { transform:scale(.96); }
-  .btn-primary  { background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#fff; box-shadow:var(--glow); }
-  .btn-secondary{ background:var(--surface2); color:var(--text); border:1px solid var(--border); }
-  .btn-gold     { background:linear-gradient(135deg,#ffd700,#ff9500); color:#1a0a00; }
-  .btn-success  { background:linear-gradient(135deg,#2ecc71,#27ae60); color:#fff; }
-  .btn-purple   { background:linear-gradient(135deg,#a855f7,#7c3aed); color:#fff; box-shadow:0 0 24px rgba(168,85,247,.35); }
+/* MODE CARDS */
+.mode-card{border-radius:18px;padding:15px 17px;width:100%;margin:6px 0;cursor:pointer;border:2px solid var(--border);transition:all .22s ease;position:relative;}
+.mode-card:hover{transform:translateY(-2px);}
+.mode-card.mode-questions{background:linear-gradient(135deg,rgba(255,60,90,.08),rgba(255,124,58,.04));}
+.mode-card.mode-desc     {background:linear-gradient(135deg,rgba(168,85,247,.08),rgba(124,58,237,.04));}
+.mode-card.selected.mode-questions{border-color:var(--accent);box-shadow:0 0 18px rgba(255,60,90,.2);}
+.mode-card.selected.mode-desc     {border-color:var(--purple);box-shadow:0 0 18px rgba(168,85,247,.2);}
+.mode-card-title{font-size:1.05rem;font-weight:900;margin-bottom:3px;}
+.mode-card-desc {font-size:.78rem;color:var(--text-muted);line-height:1.6;}
+.mode-check{position:absolute;top:12px;left:12px;width:21px;height:21px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.72rem;transition:all .2s;}
+.mode-card.selected.mode-questions .mode-check{background:var(--accent);border-color:var(--accent);color:#fff;}
+.mode-card.selected.mode-desc      .mode-check{background:var(--purple);border-color:var(--purple);color:#fff;}
 
-  /* MENU BUTTONS */
-  .menu-btn { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:14px 16px; cursor:pointer; transition:all .22s ease; margin:5px 0; display:flex; align-items:center; gap:14px; color:var(--text); font-family:'Cairo',sans-serif; font-size:clamp(.93rem,2.5vw,1.05rem); font-weight:600; width:100%; }
-  .menu-btn:hover { border-color:var(--accent); background:var(--surface2); transform:translateX(-4px); box-shadow:4px 0 0 var(--accent); }
-  .menu-btn .icon { width:44px; height:44px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:1.35rem; flex-shrink:0; }
-  .menu-btn .icon.red    { background:rgba(255,60,90,.15); }
-  .menu-btn .icon.blue   { background:rgba(60,130,255,.15); }
-  .menu-btn .icon.green  { background:rgba(46,204,113,.15); }
-  .menu-btn .icon.yellow { background:rgba(255,215,0,.15); }
-  .menu-btn .icon.purple { background:rgba(168,85,247,.15); }
-  .menu-btn .text { flex:1; text-align:right; }
-  .menu-btn .text small { display:block; font-size:.75rem; color:var(--text-muted); font-weight:400; margin-top:2px; }
+/* CATEGORY GRID */
+.category-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%;margin:8px 0;}
+.cat-btn{background:var(--surface2);border:2px solid var(--border);border-radius:14px;padding:13px 10px;cursor:pointer;transition:all .2s;text-align:center;color:var(--text);font-family:'Cairo',sans-serif;font-weight:700;font-size:.88rem;position:relative;}
+.cat-btn:hover{border-color:var(--accent);background:rgba(255,60,90,.06);}
+.cat-btn.selected{border-color:var(--gold);background:rgba(255,215,0,.08);color:var(--gold);}
+.cat-btn .cat-icon{font-size:1.5rem;display:block;margin-bottom:4px;}
+.cat-check{position:absolute;top:7px;left:7px;font-size:.7rem;display:none;}
+.cat-btn.selected .cat-check{display:block;}
 
-  /* MODE CARDS */
-  .mode-card { border-radius:18px; padding:16px 18px; width:100%; margin:7px 0; cursor:pointer; border:2px solid var(--border); transition:all .22s ease; position:relative; overflow:hidden; }
-  .mode-card:hover { transform:translateY(-2px); }
-  .mode-card.mode-questions { background:linear-gradient(135deg,rgba(255,60,90,.08),rgba(255,124,58,.05)); }
-  .mode-card.mode-desc      { background:linear-gradient(135deg,rgba(168,85,247,.08),rgba(124,58,237,.05)); }
-  .mode-card.selected.mode-questions { border-color:var(--accent); box-shadow:0 0 20px rgba(255,60,90,.2); }
-  .mode-card.selected.mode-desc      { border-color:var(--purple); box-shadow:0 0 20px rgba(168,85,247,.2); }
-  .mode-card-title { font-size:1.1rem; font-weight:900; margin-bottom:4px; }
-  .mode-card-desc  { font-size:.8rem; color:var(--text-muted); line-height:1.6; }
-  .mode-check { position:absolute; top:13px; left:13px; width:22px; height:22px; border-radius:50%; border:2px solid var(--border); background:transparent; display:flex; align-items:center; justify-content:center; font-size:.75rem; transition:all .2s; }
-  .mode-card.selected.mode-questions .mode-check { background:var(--accent); border-color:var(--accent); color:#fff; }
-  .mode-card.selected.mode-desc      .mode-check { background:var(--purple); border-color:var(--purple); color:#fff; }
+/* INPUT */
+input[type="text"]{background:var(--surface2);border:1.5px solid var(--border);border-radius:12px;padding:12px 13px;color:var(--text);font-family:'Cairo',sans-serif;font-size:1rem;width:100%;transition:border-color .2s;text-align:right;}
+input[type="text"]:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(255,60,90,.1);}
 
-  /* INPUT */
-  input[type="text"] { background:var(--surface2); border:1.5px solid var(--border); border-radius:12px; padding:12px 13px; color:var(--text); font-family:'Cairo',sans-serif; font-size:1rem; width:100%; transition:border-color .2s; text-align:right; }
-  input[type="text"]:focus { outline:none; border-color:var(--accent); box-shadow:0 0 0 3px rgba(255,60,90,.1); }
+/* PLAYER TAGS */
+.player-tag{display:inline-flex;align-items:center;gap:7px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:6px 11px;margin:3px;font-size:.85rem;font-weight:600;}
+.player-tag .remove{cursor:pointer;color:var(--accent);font-size:1.1rem;line-height:1;transition:transform .2s;}
+.player-tag .remove:hover{transform:rotate(90deg);}
+.players-list{display:flex;flex-wrap:wrap;justify-content:center;margin:9px 0;}
 
-  /* PLAYER TAGS */
-  .player-tag { display:inline-flex; align-items:center; gap:8px; background:var(--surface2); border:1px solid var(--border); border-radius:10px; padding:6px 11px; margin:3px; font-size:.87rem; font-weight:600; }
-  .player-tag .remove { cursor:pointer; color:var(--accent); font-size:1.1rem; line-height:1; transition:transform .2s; }
-  .player-tag .remove:hover { transform:rotate(90deg); }
-  .players-list { display:flex; flex-wrap:wrap; justify-content:center; margin:10px 0; }
+/* BIG DISPLAY */
+.big-name{font-size:clamp(1.9rem,7vw,3rem);font-weight:900;background:linear-gradient(135deg,var(--accent),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:7px 0;text-align:center;}
+.big-word{font-size:clamp(1.6rem,5.5vw,2.4rem);font-weight:900;color:var(--gold);background:var(--surface2);border:2px solid var(--gold);border-radius:16px;padding:12px 24px;margin:11px 0;display:inline-block;box-shadow:0 0 20px rgba(255,215,0,.2);}
 
-  /* BIG DISPLAY */
-  .big-display { text-align:center; padding:12px 8px; width:100%; }
-  .big-name { font-size:clamp(2rem,8vw,3rem); font-weight:900; background:linear-gradient(135deg,var(--accent),var(--gold)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; margin:7px 0; }
-  .big-word { font-size:clamp(1.7rem,6vw,2.5rem); font-weight:900; color:var(--gold); background:var(--surface2); border:2px solid var(--gold); border-radius:16px; padding:13px 26px; margin:12px 0; display:inline-block; box-shadow:0 0 20px rgba(255,215,0,.2); }
-  .liar-badge { font-size:clamp(1.25rem,4.5vw,1.75rem); font-weight:900; color:var(--accent); background:rgba(255,60,90,.1); border:2px solid var(--accent); border-radius:16px; padding:13px 26px; margin:12px 0; display:inline-block; animation:pulse 1.5s infinite; }
-  @keyframes pulse { 0%,100%{box-shadow:0 0 10px rgba(255,60,90,.3)} 50%{box-shadow:0 0 28px rgba(255,60,90,.65)} }
+/* LIAR WORD — looks IDENTICAL to citizen word, just different content */
+.liar-word{font-size:clamp(1.6rem,5.5vw,2.4rem);font-weight:900;color:var(--gold);background:var(--surface2);border:2px solid var(--gold);border-radius:16px;padding:12px 24px;margin:11px 0;display:inline-block;box-shadow:0 0 20px rgba(255,215,0,.2);}
 
-  /* PROGRESS */
-  .progress-bar { width:100%; height:4px; background:var(--border); border-radius:2px; margin:14px 0; overflow:hidden; }
-  .progress-fill { height:100%; background:linear-gradient(90deg,var(--accent),var(--accent2)); border-radius:2px; transition:width .4s ease; }
+/* PROGRESS */
+.progress-bar{width:100%;height:4px;background:var(--border);border-radius:2px;margin:13px 0;overflow:hidden;}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:2px;transition:width .4s ease;}
 
-  /* VOTE BUTTONS */
-  .vote-btn { display:flex; align-items:center; justify-content:space-between; background:var(--surface2); border:1.5px solid var(--border); border-radius:12px; padding:12px 15px; cursor:pointer; transition:all .2s; margin:5px 0; color:var(--text); font-family:'Cairo',sans-serif; font-size:1rem; font-weight:600; width:100%; text-align:right; }
-  .vote-btn:hover { border-color:var(--accent); background:rgba(255,60,90,.08); transform:translateX(-4px); }
+/* VOTE BUTTONS */
+.vote-btn{display:flex;align-items:center;justify-content:space-between;background:var(--surface2);border:1.5px solid var(--border);border-radius:12px;padding:12px 15px;cursor:pointer;transition:all .2s;margin:5px 0;color:var(--text);font-family:'Cairo',sans-serif;font-size:1rem;font-weight:600;width:100%;text-align:right;}
+.vote-btn:hover{border-color:var(--accent);background:rgba(255,60,90,.07);transform:translateX(-4px);}
 
-  /* RESULTS */
-  .result-icon { font-size:clamp(3rem,10vw,5rem); text-align:center; margin:12px 0; animation:bounceIn .6s ease; }
-  @keyframes bounceIn { 0%{transform:scale(0)} 60%{transform:scale(1.1)} 100%{transform:scale(1)} }
-  .result-title { font-size:clamp(1.4rem,5vw,2rem); font-weight:900; text-align:center; margin-bottom:8px; }
-  .vote-tally { display:flex; align-items:center; justify-content:space-between; padding:10px 13px; background:var(--surface2); border-radius:10px; margin:4px 0; }
-  .vote-tally-bar { height:6px; background:var(--accent); border-radius:3px; margin-top:4px; transition:width .5s ease; }
+/* GUESS BUTTONS (6 choices) */
+.guess-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%;margin:8px 0;}
+.guess-btn{background:var(--surface2);border:2px solid var(--border);border-radius:13px;padding:14px 10px;cursor:pointer;transition:all .2s;text-align:center;color:var(--text);font-family:'Cairo',sans-serif;font-weight:700;font-size:.95rem;}
+.guess-btn:hover{border-color:var(--purple);background:rgba(168,85,247,.07);transform:scale(1.02);}
+.guess-btn.correct{border-color:var(--success);background:rgba(46,204,113,.12);color:var(--success);}
+.guess-btn.wrong  {border-color:var(--accent);background:rgba(255,60,90,.1);color:var(--accent);}
 
-  /* SETTINGS */
-  .setting-row { display:flex; align-items:center; justify-content:space-between; padding:12px 0; border-bottom:1px solid var(--border); }
-  .setting-row:last-child { border-bottom:none; }
-  .toggle { width:48px; height:26px; background:var(--border); border-radius:13px; position:relative; cursor:pointer; transition:background .3s; }
-  .toggle.on { background:var(--accent); }
-  .toggle::after { content:''; position:absolute; width:20px; height:20px; background:white; border-radius:50%; top:3px; right:3px; transition:transform .3s; }
-  .toggle.on::after { transform:translateX(-22px); }
-  .slider-row { display:flex; align-items:center; gap:10px; }
-  input[type="range"] { -webkit-appearance:none; appearance:none; width:110px; height:4px; background:var(--border); border-radius:2px; outline:none; }
-  input[type="range"]::-webkit-slider-thumb { -webkit-appearance:none; width:18px; height:18px; background:var(--accent); border-radius:50%; cursor:pointer; }
+/* RESULT */
+.result-icon{font-size:clamp(3rem,10vw,5rem);text-align:center;margin:11px 0;animation:bounceIn .6s ease;}
+@keyframes bounceIn{0%{transform:scale(0)}60%{transform:scale(1.1)}100%{transform:scale(1)}}
+.result-title{font-size:clamp(1.35rem,5vw,2rem);font-weight:900;text-align:center;margin-bottom:7px;}
+.vote-tally{display:flex;align-items:center;justify-content:space-between;padding:9px 12px;background:var(--surface2);border-radius:10px;margin:4px 0;}
+.vote-tally-bar{height:5px;background:var(--accent);border-radius:3px;margin-top:4px;transition:width .5s ease;}
 
-  /* MISC */
-  .section-label { font-size:.72rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:2px; margin:12px 0 5px; font-weight:700; }
-  .divider { width:100%; height:1px; background:var(--border); margin:12px 0; }
-  .hint { font-size:.83rem; color:var(--text-muted); text-align:center; margin:5px 0; }
-  .emoji-big { font-size:clamp(2rem,8vw,3rem); text-align:center; display:block; margin:7px 0; }
+/* SETTINGS */
+.setting-row{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border);}
+.setting-row:last-child{border-bottom:none;}
+.toggle{width:48px;height:26px;background:var(--border);border-radius:13px;position:relative;cursor:pointer;transition:background .3s;}
+.toggle.on{background:var(--accent);}
+.toggle::after{content:'';position:absolute;width:20px;height:20px;background:white;border-radius:50%;top:3px;right:3px;transition:transform .3s;}
+.toggle.on::after{transform:translateX(-22px);}
+.slider-row{display:flex;align-items:center;gap:10px;}
+input[type="range"]{-webkit-appearance:none;appearance:none;width:110px;height:4px;background:var(--border);border-radius:2px;outline:none;}
+input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;background:var(--accent);border-radius:50%;cursor:pointer;}
 
-  /* ACTION PANEL */
-  .action-panel { background:var(--surface2); border-radius:14px; padding:16px 14px; text-align:center; margin:8px 0; width:100%; }
-  .panel-actor  { font-size:clamp(1.2rem,4vw,1.4rem); font-weight:900; color:var(--accent); }
-  .panel-actor.purple { color:var(--purple); }
-  .panel-arrow  { font-size:1.7rem; margin:5px 0; }
-  .panel-label  { font-size:.78rem; color:var(--text-muted); margin:2px 0; }
-  .panel-target { font-size:clamp(1.2rem,4vw,1.4rem); font-weight:900; color:var(--gold); }
+/* MISC */
+.divider{width:100%;height:1px;background:var(--border);margin:12px 0;}
+.hint{font-size:.82rem;color:var(--text-muted);text-align:center;margin:5px 0;}
+.section-label{font-size:.7rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:2px;margin:11px 0 4px;font-weight:700;}
+.emoji-big{font-size:clamp(1.9rem,7vw,3rem);text-align:center;display:block;margin:7px 0;}
 
-  /* DESCRIBE CARD */
-  .describe-card { background:linear-gradient(135deg,rgba(168,85,247,.12),rgba(124,58,237,.06)); border:2px solid rgba(168,85,247,.35); border-radius:16px; padding:18px; text-align:center; margin:8px 0; width:100%; }
-  .describe-name { font-size:clamp(1.6rem,6vw,2.2rem); font-weight:900; color:var(--purple); margin:8px 0; }
-  .describe-turn-label { font-size:.8rem; color:var(--text-muted); }
-  .describe-tip { background:rgba(168,85,247,.08); border:1px solid rgba(168,85,247,.2); border-radius:10px; padding:9px 13px; font-size:.8rem; color:var(--text-muted); margin-top:10px; line-height:1.75; text-align:right; }
+/* ACTION PANEL */
+.action-panel{background:var(--surface2);border-radius:14px;padding:15px 13px;text-align:center;margin:7px 0;width:100%;}
+.panel-actor {font-size:clamp(1.15rem,4vw,1.4rem);font-weight:900;color:var(--accent);}
+.panel-actor.purple{color:var(--purple);}
+.panel-arrow {font-size:1.6rem;margin:5px 0;}
+.panel-label {font-size:.77rem;color:var(--text-muted);margin:2px 0;}
+.panel-target{font-size:clamp(1.15rem,4vw,1.4rem);font-weight:900;color:var(--gold);}
 
-  /* NUMBER SELECTOR */
-  .number-selector { display:flex; align-items:center; gap:16px; justify-content:center; margin:12px 0; }
-  .num-btn { width:44px; height:44px; border-radius:50%; border:2px solid var(--accent); background:transparent; color:var(--accent); font-size:1.3rem; font-weight:900; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all .2s; }
-  .num-btn:hover { background:var(--accent); color:white; }
-  .num-display { font-size:2.5rem; font-weight:900; color:var(--text); min-width:56px; text-align:center; }
+/* DESCRIBE CARD */
+.describe-card{background:linear-gradient(135deg,rgba(168,85,247,.12),rgba(124,58,237,.06));border:2px solid rgba(168,85,247,.35);border-radius:16px;padding:17px;text-align:center;margin:7px 0;width:100%;}
+.describe-name{font-size:clamp(1.5rem,5.5vw,2.1rem);font-weight:900;color:var(--purple);margin:7px 0;}
+.describe-tip{background:rgba(168,85,247,.08);border:1px solid rgba(168,85,247,.2);border-radius:10px;padding:9px 12px;font-size:.79rem;color:var(--text-muted);margin-top:9px;line-height:1.75;text-align:right;}
 
-  /* HOW-TO */
-  .how-to-step { display:flex; gap:12px; margin:8px 0; align-items:flex-start; }
-  .step-num { width:30px; height:30px; border-radius:50%; background:linear-gradient(135deg,var(--accent),var(--accent2)); display:flex; align-items:center; justify-content:center; font-weight:900; font-size:.85rem; flex-shrink:0; margin-top:2px; }
-  .step-text { font-size:.88rem; color:var(--text-muted); line-height:1.6; }
-  .step-text strong { color:var(--text); }
+/* NUMBER SELECTOR */
+.number-selector{display:flex;align-items:center;gap:16px;justify-content:center;margin:11px 0;}
+.num-btn{width:44px;height:44px;border-radius:50%;border:2px solid var(--accent);background:transparent;color:var(--accent);font-size:1.3rem;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.num-btn:hover{background:var(--accent);color:white;}
+.num-display{font-size:2.4rem;font-weight:900;color:var(--text);min-width:54px;text-align:center;}
 
-  /* BACK BTN */
-  .back-btn { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:6px 12px; color:var(--text-muted); font-family:'Cairo',sans-serif; font-size:.87rem; cursor:pointer; transition:all .2s; margin-left:auto; }
-  .back-btn:hover { color:var(--text); border-color:var(--accent); }
+/* HOW-TO */
+.how-to-step{display:flex;gap:11px;margin:7px 0;align-items:flex-start;}
+.step-num{width:29px;height:29px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-weight:900;font-size:.83rem;flex-shrink:0;margin-top:2px;}
+.step-text{font-size:.86rem;color:var(--text-muted);line-height:1.6;}
+.step-text strong{color:var(--text);}
 
-  /* PHASE DOTS */
-  .phase-indicator { display:flex; gap:6px; justify-content:center; margin-bottom:14px; }
-  .phase-dot { width:8px; height:8px; border-radius:50%; background:var(--border); transition:all .3s; }
-  .phase-dot.active { background:var(--accent); width:24px; border-radius:4px; }
-  .phase-dot.active.purple { background:var(--purple); }
-  .phase-dot.done { background:var(--success); }
+/* BACK BTN */
+.back-btn{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px 12px;color:var(--text-muted);font-family:'Cairo',sans-serif;font-size:.86rem;cursor:pointer;transition:all .2s;margin-left:auto;}
+.back-btn:hover{color:var(--text);border-color:var(--accent);}
 
-  /* MODE BADGE */
-  .mode-badge { display:inline-flex; align-items:center; gap:6px; padding:4px 12px; border-radius:20px; font-size:.74rem; font-weight:700; margin-bottom:8px; }
-  .mode-badge.questions { background:rgba(255,60,90,.15); color:var(--accent); border:1px solid rgba(255,60,90,.3); }
-  .mode-badge.describe  { background:rgba(168,85,247,.15); color:var(--purple); border:1px solid rgba(168,85,247,.3); }
+/* PHASE DOTS */
+.phase-indicator{display:flex;gap:5px;justify-content:center;margin-bottom:13px;}
+.phase-dot{width:8px;height:8px;border-radius:50%;background:var(--border);transition:all .3s;}
+.phase-dot.active{background:var(--accent);width:24px;border-radius:4px;}
+.phase-dot.active.p{background:var(--purple);}
+.phase-dot.done{background:var(--success);}
 
-  /* RESPONSIVE */
-  @media (min-width:600px) {
-    #app { padding:20px; }
-    .screen { border-radius:24px; max-height:calc(100vh - 40px); box-shadow:0 0 60px rgba(0,0,0,.6); }
-  }
-  @media (max-height:640px) {
-    .screen-inner { padding:12px 15px 18px; }
-    .card { padding:13px 13px; margin:5px 0; }
-    .btn  { padding:11px 18px; margin:3px 0; }
-    .emoji-big { margin:3px 0; }
-  }
-  @media (max-height:500px) {
-    .logo { font-size:2rem; }
-    .big-word { padding:9px 18px; }
-    .liar-badge { padding:9px 18px; }
-  }
+/* MODE BADGE */
+.mode-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 11px;border-radius:20px;font-size:.72rem;font-weight:700;margin-bottom:7px;}
+.mode-badge.q{background:rgba(255,60,90,.15);color:var(--accent);border:1px solid rgba(255,60,90,.3);}
+.mode-badge.d{background:rgba(168,85,247,.15);color:var(--purple);border:1px solid rgba(168,85,247,.3);}
+
+/* SCOREBOARD */
+.score-row{display:flex;align-items:center;justify-content:space-between;padding:9px 12px;border-bottom:1px solid var(--border);}
+.score-row:last-child{border-bottom:none;}
+.score-pip{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--gold);margin:0 2px;}
+
+/* RESPONSIVE */
+@media(min-width:600px){
+  #app{padding:20px;}
+  .screen{border-radius:24px;max-height:calc(100vh - 40px);box-shadow:0 0 60px rgba(0,0,0,.6);}
+}
+@media(max-height:640px){
+  .screen-inner{padding:11px 14px 18px;}
+  .card{padding:12px 13px;margin:5px 0;}
+  .btn{padding:11px 16px;margin:3px 0;}
+  .emoji-big{margin:3px 0;}
+}
+@media(max-height:500px){
+  .logo{font-size:2rem;}
+  .big-word,.liar-word{padding:9px 18px;}
+}
 </style>
 </head>
 <body>
 <div class="particles" id="particles"></div>
 <div id="app">
 
-<!-- ═══════ MAIN MENU ═══════ -->
+<!-- ═══ MAIN MENU ═══ -->
 <div class="screen active" id="screen-menu">
   <div class="screen-inner">
-    <div style="text-align:center;margin-bottom:22px;padding-top:8px;">
+    <div style="text-align:center;margin-bottom:20px;padding-top:6px;">
       <div class="logo">الكذاب</div>
       <div class="logo-sub">Al-Kadhab</div>
     </div>
-    <button class="menu-btn" onclick="showScreen('screen-players')">
-      <div class="icon red">🎮</div><div class="text">ابدأ اللعبة<small>أدخل أسماء اللاعبين وابدأ</small></div>
-    </button>
-    <button class="menu-btn" onclick="showScreen('screen-how')">
-      <div class="icon blue">📖</div><div class="text">كيف تلعب؟<small>تعلم قواعد اللعبة</small></div>
-    </button>
-    <button class="menu-btn" onclick="showScreen('screen-settings')">
-      <div class="icon green">⚙️</div><div class="text">الإعدادات<small>صوت، اهتزاز، حجم الشاشة</small></div>
-    </button>
-    <button class="menu-btn" onclick="showScreen('screen-credits')">
-      <div class="icon yellow">👨‍💻</div><div class="text">المطور<small>معلومات عن المطور</small></div>
-    </button>
+    <button class="menu-btn" onclick="showScreen('screen-players')"><div class="icon red">🎮</div><div class="text">ابدأ اللعبة<small>أدخل أسماء اللاعبين وابدأ</small></div></button>
+    <button class="menu-btn" onclick="showScreen('screen-how')"><div class="icon blue">📖</div><div class="text">كيف تلعب؟<small>تعلم قواعد اللعبة</small></div></button>
+    <button class="menu-btn" onclick="showScreen('screen-scores')"><div class="icon yellow">🏆</div><div class="text">النقاط<small>سجل الفوز والكذابين</small></div></button>
+    <button class="menu-btn" onclick="showScreen('screen-settings')"><div class="icon green">⚙️</div><div class="text">الإعدادات<small>صوت، اهتزاز، حجم الشاشة</small></div></button>
+    <button class="menu-btn" onclick="showScreen('screen-credits')"><div class="icon" style="background:rgba(168,85,247,.15);">👨‍💻</div><div class="text">المطور<small>Tamim Majed Aljabri</small></div></button>
   </div>
 </div>
 
-<!-- ═══════ HOW TO PLAY ═══════ -->
+<!-- ═══ HOW TO PLAY ═══ -->
 <div class="screen" id="screen-how">
   <div class="screen-header"><button class="back-btn" onclick="showScreen('screen-menu')">← رجوع</button></div>
   <div class="screen-inner">
-    <div class="card-title" style="font-size:1.35rem;justify-content:center;margin-bottom:14px;">📖 كيف تلعب؟</div>
-    <div class="how-to-step"><div class="step-num">1</div><div class="step-text"><strong>اختر نمط اللعب</strong><br>نمط الأسئلة: اللاعبون يسألون بعضهم. نمط الوصف: كل لاعب يصف الكلمة بدوره.</div></div>
-    <div class="how-to-step"><div class="step-num">2</div><div class="step-text"><strong>أدخل أسماء اللاعبين</strong><br>الحد الأدنى 3 لاعبين.</div></div>
-    <div class="how-to-step"><div class="step-num">3</div><div class="step-text"><strong>اختر عدد الكذابين</strong><br>كذاب لـ 3+، كذابان لـ 5+، ثلاثة لـ 6+ لاعبين.</div></div>
-    <div class="how-to-step"><div class="step-num">4</div><div class="step-text"><strong>توزيع الكلمة السرية</strong><br>كل لاعب يأخذ الهاتف بشكل سري. الكذاب لا يرى الكلمة!</div></div>
-    <div class="how-to-step"><div class="step-num">5</div><div class="step-text"><strong>مرحلة اللعب</strong><br>أسئلة: اسألوا بعضكم. وصف: كل لاعب يصف الكلمة بجملة واحدة فقط دون ذكرها.</div></div>
-    <div class="how-to-step"><div class="step-num">6</div><div class="step-text"><strong>التصويت والفوز</strong><br>صوتوا لمن تعتقدون أنه الكذاب.<br>اكتُشف الكذاب ← اللاعبون يفوزون 🎉 | نجا الكذاب ← الكذاب يفوز 😈</div></div>
+    <div class="card-title" style="font-size:1.3rem;justify-content:center;margin-bottom:12px;">📖 كيف تلعب؟</div>
+    <div class="how-to-step"><div class="step-num">1</div><div class="step-text"><strong>اختر الفئة والنمط</strong><br>اختر فئة الكلمات (حيوانات، طعام…) ثم نمط اللعب: أسئلة أو وصف.</div></div>
+    <div class="how-to-step"><div class="step-num">2</div><div class="step-text"><strong>توزيع الكلمات</strong><br>كل مواطن يرى نفس الكلمة السرية. الكذاب يرى كلمة مختلفة تماماً — ولا يعلم أنه الكذاب!</div></div>
+    <div class="how-to-step"><div class="step-num">3</div><div class="step-text"><strong>مرحلة اللعب</strong><br>أسئلة: يسأل اللاعبون بعضهم. وصف: كل لاعب يصف الكلمة بجملة واحدة.</div></div>
+    <div class="how-to-step"><div class="step-num">4</div><div class="step-text"><strong>التصويت</strong><br>كل لاعب يصوت لمن يعتقد أنه الكذاب. أعلى الأصوات يُقصى.</div></div>
+    <div class="how-to-step"><div class="step-num">5</div><div class="step-text"><strong>تحدي الكذاب</strong><br>إذا أُقصي الكذاب، يحاول تخمين الكلمة الحقيقية من 6 خيارات. يخمن صح → يفوز الكذاب! يخمن غلط → المواطنون يفوزون!</div></div>
+    <div class="how-to-step"><div class="step-num">6</div><div class="step-text"><strong>إذا لم يُقصَ الكذاب</strong><br>الكذاب يفوز مباشرة بدون الحاجة للتخمين.</div></div>
     <button class="btn btn-primary" style="margin-top:12px;" onclick="showScreen('screen-players')">🎮 ابدأ اللعبة</button>
     <button class="btn btn-secondary" onclick="showScreen('screen-menu')">رجوع للقائمة</button>
   </div>
 </div>
 
-<!-- ═══════ SETTINGS ═══════ -->
+<!-- ═══ SCORES ═══ -->
+<div class="screen" id="screen-scores">
+  <div class="screen-header"><button class="back-btn" onclick="showScreen('screen-menu')">← رجوع</button></div>
+  <div class="screen-inner">
+    <div class="card-title" style="font-size:1.3rem;justify-content:center;margin-bottom:12px;">🏆 لوحة النقاط</div>
+    <div class="card" id="scoreboard-display"><div class="hint">لا توجد نقاط بعد. العب أولاً!</div></div>
+    <button class="btn btn-secondary" onclick="if(confirm('مسح كل النقاط؟')){scoreBoard={};saveScores();renderScoreboard();}">🗑️ مسح النقاط</button>
+    <button class="btn btn-secondary" onclick="showScreen('screen-menu')">رجوع للقائمة</button>
+  </div>
+</div>
+
+<!-- ═══ SETTINGS ═══ -->
 <div class="screen" id="screen-settings">
   <div class="screen-header"><button class="back-btn" onclick="showScreen('screen-menu')">← رجوع</button></div>
   <div class="screen-inner">
-    <div class="card-title" style="font-size:1.35rem;justify-content:center;margin-bottom:14px;">⚙️ الإعدادات</div>
+    <div class="card-title" style="font-size:1.3rem;justify-content:center;margin-bottom:12px;">⚙️ الإعدادات</div>
     <div class="card">
-      <div class="setting-row">
-        <div><div style="font-weight:700;">الصوت</div><div style="font-size:.77rem;color:var(--text-muted);">تفعيل أصوات اللعبة</div></div>
-        <div class="toggle on" id="toggle-sound" onclick="toggleSetting('sound')"></div>
-      </div>
-      <div class="setting-row">
-        <div><div style="font-weight:700;">الاهتزاز</div><div style="font-size:.77rem;color:var(--text-muted);">اهتزاز الهاتف عند الأحداث</div></div>
-        <div class="toggle on" id="toggle-vibrate" onclick="toggleSetting('vibrate')"></div>
-      </div>
-      <div class="setting-row">
-        <div><div style="font-weight:700;">حجم الخط</div><div style="font-size:.77rem;color:var(--text-muted);" id="font-size-label">100%</div></div>
-        <div class="slider-row">
-          <span style="font-size:.8rem;">أ</span>
-          <input type="range" min="80" max="130" value="100" id="font-slider" oninput="changeFontSize(this.value)">
-          <span style="font-size:1.2rem;">أ</span>
-        </div>
-      </div>
+      <div class="setting-row"><div><div style="font-weight:700;">الصوت</div><div style="font-size:.76rem;color:var(--text-muted);">تفعيل أصوات اللعبة</div></div><div class="toggle on" id="toggle-sound" onclick="toggleSetting('sound')"></div></div>
+      <div class="setting-row"><div><div style="font-weight:700;">الاهتزاز</div><div style="font-size:.76rem;color:var(--text-muted);">اهتزاز الهاتف عند الأحداث</div></div><div class="toggle on" id="toggle-vibrate" onclick="toggleSetting('vibrate')"></div></div>
+      <div class="setting-row"><div><div style="font-weight:700;">حجم الخط</div><div style="font-size:.76rem;color:var(--text-muted);" id="font-size-label">100%</div></div><div class="slider-row"><span style="font-size:.8rem;">أ</span><input type="range" min="80" max="130" value="100" id="font-slider" oninput="changeFontSize(this.value)"><span style="font-size:1.2rem;">أ</span></div></div>
     </div>
     <button class="btn btn-secondary" onclick="showScreen('screen-menu')">رجوع للقائمة</button>
   </div>
 </div>
 
-<!-- ═══════ CREDITS ═══════ -->
+<!-- ═══ CREDITS ═══ -->
 <div class="screen" id="screen-credits">
   <div class="screen-header"><button class="back-btn" onclick="showScreen('screen-menu')">← رجوع</button></div>
   <div class="screen-inner" style="text-align:center;">
-    <div style="font-size:3.5rem;margin:14px 0;">👨‍💻</div>
+    <div style="font-size:3.5rem;margin:12px 0;">👨‍💻</div>
     <div class="section-label">المطور</div>
-    <div class="big-name" style="font-size:1.6rem;margin:7px 0;">Tamim Majed Aljabri</div>
-    <div style="color:var(--text-muted);font-size:.88rem;line-height:2;">تميم ماجد الجابري<br>مطور لعبة الكذاب<br><span style="color:var(--accent);">Al-Kadhab Game</span></div>
+    <div class="big-name" style="font-size:1.55rem;margin:6px 0;">Tamim Majed Aljabri</div>
+    <div style="color:var(--text-muted);font-size:.87rem;line-height:2;">تميم ماجد الجابري<br>مطور لعبة الكذاب<br><span style="color:var(--accent);">Al-Kadhab Game</span></div>
     <div class="divider"></div>
-    <div class="card" style="text-align:right;">
-      <div class="card-title">🎮 حول اللعبة</div>
-      <div style="font-size:.87rem;color:var(--text-muted);line-height:1.8;">الكذاب هي لعبة اجتماعية ممتعة تُلعب مع الأصدقاء باستخدام هاتف واحد. تتوفر في نمطين: الأسئلة والوصف!</div>
-    </div>
+    <div class="card" style="text-align:right;"><div class="card-title">🎮 حول اللعبة</div><div style="font-size:.85rem;color:var(--text-muted);line-height:1.8;">لعبة اجتماعية ممتعة بنمطين: الأسئلة والوصف. الكذاب لا يعلم أنه الكذاب!</div></div>
     <button class="btn btn-primary" onclick="showScreen('screen-menu')">العودة للقائمة الرئيسية</button>
   </div>
 </div>
 
-<!-- ═══════ PLAYER NAMES ═══════ -->
+<!-- ═══ PLAYER NAMES ═══ -->
 <div class="screen" id="screen-players">
   <div class="screen-header"><button class="back-btn" onclick="showScreen('screen-menu')">← رجوع</button></div>
   <div class="screen-inner">
-    <div class="card-title" style="font-size:1.25rem;justify-content:center;margin-bottom:4px;">👤 أسماء اللاعبين</div>
+    <div class="card-title" style="font-size:1.2rem;justify-content:center;margin-bottom:3px;">👤 أسماء اللاعبين</div>
     <div class="hint">الحد الأدنى 3 لاعبين</div>
-    <div class="card" style="margin-top:8px;">
-      <div style="display:flex;gap:8px;">
-        <input type="text" id="player-input" placeholder="أدخل اسم اللاعب..." maxlength="15" onkeypress="if(event.key==='Enter')addPlayer()">
+    <div class="card" style="margin-top:7px;">
+      <div style="display:flex;gap:7px;">
+        <input type="text" id="player-input" placeholder="أدخل اسم اللاعب..." maxlength="14" onkeypress="if(event.key==='Enter')addPlayer()">
         <button class="btn btn-primary" style="width:auto;padding:12px 14px;margin:0;" onclick="addPlayer()">+</button>
       </div>
-      <div class="players-list" id="players-list" style="min-height:40px;margin-top:10px;"></div>
+      <div class="players-list" id="players-list" style="min-height:38px;margin-top:9px;"></div>
     </div>
-    <button class="btn btn-primary" onclick="goToMode()" id="start-btn" disabled>التالي: نمط اللعبة →</button>
+    <button class="btn btn-primary" onclick="showScreen('screen-category')" id="start-btn" disabled>التالي: اختر الفئة →</button>
   </div>
 </div>
 
-<!-- ═══════ GAME MODE ═══════ -->
-<div class="screen" id="screen-mode">
+<!-- ═══ CATEGORY SELECTION ═══ -->
+<div class="screen" id="screen-category">
   <div class="screen-header"><button class="back-btn" onclick="showScreen('screen-players')">← رجوع</button></div>
   <div class="screen-inner">
-    <div class="card-title" style="font-size:1.25rem;justify-content:center;margin-bottom:4px;">🎮 اختر نمط اللعبة</div>
-    <div class="hint">كل نمط له طريقة مختلفة لكشف الكذاب</div>
-    <div class="mode-card mode-questions selected" id="mode-q" onclick="selectMode('questions')" style="margin-top:10px;">
+    <div class="card-title" style="font-size:1.2rem;justify-content:center;margin-bottom:3px;">📂 اختر الفئة</div>
+    <div class="hint">اختر فئة واحدة للكلمات السرية</div>
+    <div class="category-grid" id="category-grid"></div>
+    <button class="btn btn-primary" onclick="goToMode()" id="cat-next-btn" disabled style="margin-top:8px;">التالي: نمط اللعبة →</button>
+  </div>
+</div>
+
+<!-- ═══ GAME MODE ═══ -->
+<div class="screen" id="screen-mode">
+  <div class="screen-header"><button class="back-btn" onclick="showScreen('screen-category')">← رجوع</button></div>
+  <div class="screen-inner">
+    <div class="card-title" style="font-size:1.2rem;justify-content:center;margin-bottom:3px;">🎮 نمط اللعبة</div>
+    <div class="hint">كيف تريدون الكشف عن الكذاب؟</div>
+    <div class="mode-card mode-questions selected" id="mode-q" onclick="selectMode('questions')" style="margin-top:9px;">
       <div class="mode-check">✓</div>
       <div class="mode-card-title">❓ نمط الأسئلة</div>
-      <div class="mode-card-desc">اللاعبون يسألون بعضهم أسئلة بشكل عشوائي. حاول كشف الكذاب من إجاباته!</div>
+      <div class="mode-card-desc">اللاعبون يسألون بعضهم أسئلة. كشف الكذاب من خلال إجاباته!</div>
     </div>
     <div class="mode-card mode-desc" id="mode-d" onclick="selectMode('describe')">
       <div class="mode-check"></div>
       <div class="mode-card-title" style="color:var(--purple);">💬 نمط الوصف</div>
-      <div class="mode-card-desc">كل لاعب يصف الكلمة السرية بدوره بجملة واحدة فقط دون ذكرها مباشرة. الكذاب يحاول التأقلم!</div>
+      <div class="mode-card-desc">كل لاعب يصف الكلمة بجملة واحدة دون ذكرها. الكذاب يحاول التأقلم!</div>
     </div>
-    <button class="btn btn-primary" onclick="goToLiarCount()" style="margin-top:10px;">التالي: عدد الكذابين →</button>
+    <button class="btn btn-primary" onclick="goToLiarCount()" style="margin-top:9px;">التالي: عدد الكذابين →</button>
   </div>
 </div>
 
-<!-- ═══════ LIAR COUNT ═══════ -->
+<!-- ═══ LIAR COUNT ═══ -->
 <div class="screen" id="screen-liar-count">
   <div class="screen-header"><button class="back-btn" onclick="showScreen('screen-mode')">← رجوع</button></div>
   <div class="screen-inner" style="text-align:center;">
     <div class="emoji-big">🕵️</div>
-    <div class="card-title" style="font-size:1.25rem;justify-content:center;">كم عدد الكذابين؟</div>
+    <div class="card-title" style="font-size:1.2rem;justify-content:center;">كم عدد الكذابين؟</div>
     <div class="number-selector">
       <button class="num-btn" onclick="changeLiarCount(-1)">−</button>
       <div class="num-display" id="liar-count-display">1</div>
       <button class="num-btn" onclick="changeLiarCount(1)">+</button>
     </div>
     <div class="hint" id="liar-hint"></div>
-    <div class="card" style="text-align:right;margin-top:10px;">
+    <div class="card" style="text-align:right;margin-top:9px;">
       <div class="card-title">📋 القواعد</div>
-      <div style="font-size:.87rem;color:var(--text-muted);line-height:2.1;">🔴 3+ لاعبين → كذاب واحد<br>🟡 5+ لاعبين → كذابان<br>🟢 6+ لاعبين → 3 كذابين</div>
+      <div style="font-size:.85rem;color:var(--text-muted);line-height:2.1;">🔴 3+ لاعبين → كذاب واحد<br>🟡 5+ لاعبين → كذابان<br>🟢 6+ لاعبين → 3 كذابين</div>
     </div>
-    <button class="btn btn-primary" style="margin-top:10px;" onclick="startGame()">🎮 ابدأ اللعبة!</button>
+    <button class="btn btn-primary" style="margin-top:9px;" onclick="startGame()">🎮 ابدأ اللعبة!</button>
   </div>
 </div>
 
-<!-- ═══════ GAME INTRO ═══════ -->
+<!-- ═══ GAME INTRO ═══ -->
 <div class="screen" id="screen-game-intro">
   <div class="screen-inner" style="justify-content:center;text-align:center;">
     <div class="emoji-big">📱</div>
-    <div class="big-name" style="font-size:clamp(1.4rem,5vw,2rem);">تعليمات اللعبة</div>
+    <div class="big-name" style="font-size:clamp(1.35rem,5vw,1.9rem);">تعليمات اللعبة</div>
     <div id="intro-mode-badge"></div>
-    <div class="card" style="text-align:right;margin:12px 0;">
-      <div id="intro-rules" style="font-size:.88rem;color:var(--text-muted);line-height:2.2;"></div>
+    <div class="card" style="text-align:right;margin:11px 0;">
+      <div id="intro-rules" style="font-size:.86rem;color:var(--text-muted);line-height:2.2;"></div>
     </div>
     <button class="btn btn-gold" onclick="nextPlayerWord()">ابدأ توزيع الكلمات →</button>
   </div>
 </div>
 
-<!-- ═══════ PASS PHONE ═══════ -->
+<!-- ═══ PASS PHONE ═══ -->
 <div class="screen" id="screen-pass-phone">
   <div class="screen-inner" style="justify-content:center;text-align:center;">
-    <div style="font-size:clamp(.95rem,3vw,1.1rem);color:var(--text-muted);">مرر الهاتف إلى</div>
+    <div style="font-size:clamp(.9rem,3vw,1.05rem);color:var(--text-muted);">مرر الهاتف إلى</div>
     <div class="big-name" id="pass-to-name">---</div>
     <div class="emoji-big">📱</div>
     <div class="hint">اضغط التالي عندما يكون الهاتف عنده</div>
-    <button class="btn btn-primary" style="margin-top:14px;" onclick="showPlayerWord()">التالي →</button>
+    <button class="btn btn-primary" style="margin-top:13px;" onclick="showPlayerWord()">التالي →</button>
   </div>
 </div>
 
-<!-- ═══════ SHOW WORD ═══════ -->
+<!-- ═══ SHOW WORD ═══ -->
 <div class="screen" id="screen-show-word">
-  <div class="screen-inner" style="justify-content:center;">
-    <div class="big-display">
-      <div style="font-size:.93rem;color:var(--text-muted);">كلمتك السرية</div>
-      <div id="word-display"></div>
-      <div class="hint" id="word-hint"></div>
-      <div class="progress-bar"><div class="progress-fill" id="word-progress"></div></div>
-      <div class="hint" id="word-progress-text"></div>
-      <button class="btn btn-secondary" style="margin-top:10px;" onclick="doneReadingWord()">حفظت الكلمة ✓</button>
-    </div>
+  <div class="screen-inner" style="justify-content:center;text-align:center;">
+    <div style="font-size:.9rem;color:var(--text-muted);">كلمتك السرية</div>
+    <div id="word-display"></div>
+    <div class="hint" id="word-hint"></div>
+    <div class="progress-bar"><div class="progress-fill" id="word-progress"></div></div>
+    <div class="hint" id="word-progress-text"></div>
+    <button class="btn btn-secondary" style="margin-top:9px;" onclick="doneReadingWord()">حفظت الكلمة ✓</button>
   </div>
 </div>
 
-<!-- ═══════ QUESTION PHASE ═══════ -->
+<!-- ═══ QUESTION PHASE ═══ -->
 <div class="screen" id="screen-questions">
   <div class="screen-inner">
-    <div class="phase-indicator">
-      <div class="phase-dot done"></div>
-      <div class="phase-dot active"></div>
-      <div class="phase-dot"></div>
-    </div>
-    <div style="text-align:center;"><div class="mode-badge questions">❓ نمط الأسئلة</div></div>
-    <div class="card-title" style="font-size:1.2rem;justify-content:center;">مرحلة الأسئلة</div>
+    <div class="phase-indicator"><div class="phase-dot done"></div><div class="phase-dot active"></div><div class="phase-dot"></div></div>
+    <div style="text-align:center;"><div class="mode-badge q">❓ نمط الأسئلة</div></div>
+    <div class="card-title" style="font-size:1.15rem;justify-content:center;">مرحلة الأسئلة</div>
     <div class="hint" id="question-counter"></div>
     <div class="action-panel">
       <div class="panel-actor" id="q-asker">---</div>
@@ -395,60 +397,65 @@
       <div class="panel-target" id="q-askee">---</div>
     </div>
     <div class="hint">اسأل سؤالاً ذكياً لكشف الكذاب دون كشف الكلمة!</div>
-    <button class="btn btn-primary" style="margin-top:10px;" onclick="nextQuestion()">السؤال التالي →</button>
+    <button class="btn btn-primary" style="margin-top:9px;" onclick="nextQuestion()">السؤال التالي →</button>
     <button class="btn btn-secondary" onclick="goToVoting()">انتقل للتصويت ⏩</button>
   </div>
 </div>
 
-<!-- ═══════ DESCRIBE PHASE ═══════ -->
+<!-- ═══ DESCRIBE PHASE ═══ -->
 <div class="screen" id="screen-describe">
   <div class="screen-inner">
-    <div class="phase-indicator">
-      <div class="phase-dot done"></div>
-      <div class="phase-dot active purple"></div>
-      <div class="phase-dot"></div>
-    </div>
-    <div style="text-align:center;"><div class="mode-badge describe">💬 نمط الوصف</div></div>
-    <div class="card-title" style="font-size:1.2rem;justify-content:center;color:var(--purple);">مرحلة الوصف</div>
+    <div class="phase-indicator"><div class="phase-dot done"></div><div class="phase-dot active p"></div><div class="phase-dot"></div></div>
+    <div style="text-align:center;"><div class="mode-badge d">💬 نمط الوصف</div></div>
+    <div class="card-title" style="font-size:1.15rem;justify-content:center;color:var(--purple);">مرحلة الوصف</div>
     <div class="hint" id="describe-counter"></div>
     <div class="describe-card">
-      <div class="describe-turn-label">دور</div>
+      <div style="font-size:.78rem;color:var(--text-muted);">دور</div>
       <div class="describe-name" id="d-current-player">---</div>
-      <div class="describe-turn-label">يصف الكلمة السرية الآن</div>
-      <div class="describe-tip">💡 <strong>تعليمات:</strong> صف الكلمة بجملة واحدة فقط.<br>لا تقل الكلمة مباشرة، ولا كلمات قريبة جداً منها!</div>
+      <div style="font-size:.78rem;color:var(--text-muted);">يصف الكلمة السرية الآن</div>
+      <div class="describe-tip">💡 صف الكلمة بجملة واحدة فقط.<br>لا تقل الكلمة مباشرة أو كلمات قريبة جداً منها!</div>
     </div>
-    <button class="btn btn-purple" style="margin-top:10px;" onclick="nextDescribe()">التالي →</button>
+    <button class="btn btn-purple" style="margin-top:9px;" onclick="nextDescribe()">التالي →</button>
     <button class="btn btn-secondary" onclick="goToVoting()">انتقل للتصويت ⏩</button>
   </div>
 </div>
 
-<!-- ═══════ VOTING ═══════ -->
+<!-- ═══ VOTING ═══ -->
 <div class="screen" id="screen-voting">
   <div class="screen-inner">
-    <div class="phase-indicator">
-      <div class="phase-dot done"></div>
-      <div class="phase-dot done"></div>
-      <div class="phase-dot active"></div>
-    </div>
-    <div class="card-title" style="font-size:1.2rem;justify-content:center;">🗳️ مرحلة التصويت</div>
-    <div style="text-align:center;margin-bottom:8px;">
-      <div style="font-size:.88rem;color:var(--text-muted);">من يصوت الآن؟</div>
-      <div class="panel-actor" id="current-voter" style="font-size:clamp(1.3rem,5vw,1.6rem);">---</div>
+    <div class="phase-indicator"><div class="phase-dot done"></div><div class="phase-dot done"></div><div class="phase-dot active"></div></div>
+    <div class="card-title" style="font-size:1.15rem;justify-content:center;">🗳️ مرحلة التصويت</div>
+    <div style="text-align:center;margin-bottom:7px;">
+      <div style="font-size:.86rem;color:var(--text-muted);">من يصوت الآن؟</div>
+      <div class="panel-actor" id="current-voter" style="font-size:clamp(1.25rem,5vw,1.55rem);">---</div>
     </div>
     <div class="hint">من تعتقد أنه الكذاب؟</div>
     <div id="vote-buttons" style="width:100%;"></div>
   </div>
 </div>
 
-<!-- ═══════ RESULTS ═══════ -->
+<!-- ═══ LIAR GUESS ═══ -->
+<div class="screen" id="screen-liar-guess">
+  <div class="screen-inner" style="text-align:center;">
+    <div class="emoji-big">🕵️</div>
+    <div class="big-name" style="font-size:clamp(1.3rem,5vw,1.8rem);" id="liar-guess-name">---</div>
+    <div style="background:linear-gradient(135deg,rgba(255,60,90,.1),rgba(255,124,58,.06));border:2px solid rgba(255,60,90,.3);border-radius:16px;padding:13px;margin:9px 0;font-size:.84rem;color:var(--text-muted);line-height:1.8;" id="liar-guess-context">
+      🎯 فرصتك للفوز!
+    </div>
+    <div class="hint">اختر الكلمة الصحيحة من الخيارات التالية:</div>
+    <div class="guess-grid" id="guess-choices"></div>
+  </div>
+</div>
+
+<!-- ═══ RESULTS ═══ -->
 <div class="screen" id="screen-results">
   <div class="screen-inner">
     <div id="result-content"></div>
-    <div class="card" style="margin-top:10px;">
+    <div class="card" style="margin-top:9px;">
       <div class="card-title">📊 نتائج التصويت</div>
       <div id="vote-tally"></div>
     </div>
-    <button class="btn btn-gold" style="margin-top:10px;" onclick="restartGame()">🔄 جولة جديدة</button>
+    <button class="btn btn-gold" style="margin-top:9px;" onclick="restartGame()">🔄 جولة جديدة</button>
     <button class="btn btn-secondary" onclick="showScreen('screen-menu')">القائمة الرئيسية</button>
   </div>
 </div>
@@ -456,66 +463,46 @@
 </div><!-- #app -->
 <script>
 // ══════════════════════════════════════════
-//  WORD BANK  (200+ words)
+//  CATEGORIES & WORD BANK
 // ══════════════════════════════════════════
-const words = [
-  // أشياء منزلية
-  'منشفة','مرآة','ثلاجة','مصباح','تلفزيون','كرسي','طاولة','باب','نافذة',
-  'سرير','وسادة','بطانية','صنبور','غسالة','مكنسة','مقلاة','كوب','طبق',
-  'ملعقة','شوكة','سكين','إبريق','خزانة','رف','ستارة','مفتاح','قفل',
-  'مروحة','مكيف','جرس','مرتبة','دولاب',
-  // طعام وشراب
-  'برتقالة','تفاحة','موزة','بطيخ','عنب','فراولة','خبز','أرز','دجاج',
-  'بيضة','جبن','لبن','قهوة','شاي','عصير','شوكولاتة','تمر','رمان','فلفل',
-  'ثوم','بصل','طماطم','جزرة','بطاطا','ملح','سكر','زيت','عسل','مكرونة',
-  'كنافة','حلوى','مشروب','فطيرة','أيسكريم','كيكة','سمبوسة',
-  // طبيعة وبيئة
-  'شمس','قمر','نجمة','غيمة','مطر','ثلج','جبل','بحر','نهر','شجرة',
-  'وردة','زهرة','عشب','رمل','صخرة','قوس قزح','برق','ريح','ضباب',
-  'صحراء','غابة','شلال','بركة','نخلة','كهف','جزيرة','بركان',
-  // حيوانات
-  'حصان','أسد','فيل','قرد','تمساح','زرافة','نمر','ذئب','ثعلب','أرنب',
-  'سمكة','طائر','دجاجة','قطة','كلب','بقرة','غنم','جمل','فراشة','نحلة',
-  'ببغاء','أخطبوط','سلحفاة','دب','حوت','دلفين','كنغر','بطريق','غراب',
-  'عقرب','حية','ضبع','فهد','طاووس',
-  // وسائل نقل
-  'سيارة','طائرة','سفينة','قطار','دراجة','باص','قارب','هليكوبتر','مترو',
-  'تاكسي','شاحنة','موتوسيكل','غواصة','صاروخ','ترام',
-  // تكنولوجيا
-  'هاتف','كمبيوتر','لوحة مفاتيح','طابعة','شاشة','سماعات','كاميرا',
-  'ساعة ذكية','تابلت','راديو','ريموت','بروجكتور',
-  // رياضة وترفيه
-  'كرة قدم','مسبح','شطرنج','ورق لعب','سينما','كتاب','قلم',
-  'مسرح','طبلة','غيتار','بيانو','ألعاب فيديو','ملعب','تنس',
-  'كرة سلة','كرة طائرة','رياضة','ملاكمة','سباحة',
-  // ملابس وأزياء
-  'حذاء','قميص','بنطلون','قبعة','نظارة','ساعة يد','حقيبة','عباية',
-  'كوفية','قفاز','شال','حزام','جاكيت','عطر',
-  // أماكن
-  'مدرسة','مستشفى','مسجد','ملعب','مطعم','متحف','سوق','فندق',
-  'مطار','حديقة','مكتبة','بنك','صيدلية','ميناء','شاطئ',
-  'مول','مخبز','مصنع','محطة','مرصد',
-  // متنوعة
-  'سيف','مظلة','خيمة','حبل','بالون','قارورة','خريطة',
-  'بوصلة','تلسكوب','مجهر','ميزان','ساعة رمل','صندوق',
-  'جسر','برج','قلعة','تاج','درع','علم','مشعل','شمعة',
-  'لغز','ألغاز','خريطة كنز','ميدالية','جائزة','كأس'
-];
+const CATEGORIES = {
+  animals:  { label:'حيوانات', icon:'🐾', words:['أسد','نمر','فيل','زرافة','تمساح','قرد','ذئب','ثعلب','أرنب','حصان','غزال','دب','حوت','دلفين','كنغر','بطريق','طاووس','ضبع','فهد','وحيد القرن','جمل','نمس','قنفذ','خفاش','أخطبوط','سمكة القرش','نسر','طاووس','ببغاء','سلحفاة'] },
+  food:     { label:'طعام',    icon:'🍔', words:['برجر','بيتزا','سوشي','شاورما','كبسة','مندي','مطبق','جريش','سمبوسة','كنافة','أرز','دجاج','سمك','بيضة','فلافل','تمر','حلوى','آيسكريم','شوكولاتة','كيكة','خبز','جبن','لبن','وربات','مكرونة','هريسة','تبولة','حمص','منسف','مظبي'] },
+  countries:{ label:'دول',     icon:'🌍', words:['السعودية','الإمارات','مصر','تركيا','اليابان','فرنسا','البرازيل','الهند','المكسيك','أستراليا','إيطاليا','كندا','روسيا','الصين','إسبانيا','ألمانيا','الأرجنتين','كوريا','هولندا','السويد','البرتغال','اليونان','المغرب','نيجيريا','إندونيسيا','باكستان','إيران','عُمان','الكويت','قطر'] },
+  sports:   { label:'رياضة',   icon:'⚽', words:['كرة قدم','كرة سلة','سباحة','ملاكمة','تنس','كرة طائرة','رياضة','جمباز','سباق سيارات','رفع أثقال','غوص','تسلق','فروسية','بولينغ','شطرنج','جودو','كاراتيه','ركبي','هوكي','بيسبول','كرة يد','قوس ورمح','سباق خيل','دراجات','لياقة','يوغا','رقص','اسكواش','بادمنتون','جولف'] },
+  places:   { label:'أماكن',   icon:'🏙️', words:['مسجد','برج','ملعب','مطار','فندق','متحف','سوق','مستشفى','مدرسة','شاطئ','جبل','حديقة','مطعم','سينما','مكتبة','بنك','ميناء','قلعة','برلمان','ملاهي','حمام سباحة','معرض فن','مصنع','ميدان','نافورة','دوّار','محطة قطار','مسرح','منتجع','كهف'] },
+  tech:     { label:'تقنية',   icon:'💻', words:['هاتف','حاسوب','ذكاء اصطناعي','تلفزيون','روبوت','طائرة مسيّرة','ساعة ذكية','إنترنت','تابلت','كاميرا','سماعات','طابعة','شاشة','ماوس','لوحة مفاتيح','بروجكتور','شاحن','بطارية','راديو','جهاز تحكم','واقع افتراضي','خادم','قرص صلب','شبكة','بلوتوث','واي فاي','ألعاب فيديو','تطبيق','ساعة','ذاكرة'] },
+  nature:   { label:'طبيعة',   icon:'🌿', words:['شمس','قمر','نجمة','نهر','بحر','جبل','غابة','صحراء','بركان','كهف','شلال','بحيرة','جزيرة','مرجان','نخلة','وردة','زهرة','عشب','ضباب','برق','رعد','ثلج','مطر','ريح','قوس قزح','ارض','غيمة','رمل','صخرة','شجرة'] },
+  transport:{ label:'مواصلات', icon:'🚗', words:['سيارة','طائرة','قطار','سفينة','باص','مترو','دراجة','هليكوبتر','غواصة','قارب','تاكسي','شاحنة','موتوسيكل','جرار','ترام','جمل','حصان','عربة','كارافان','يخت','صاروخ','مركبة فضاء','دراجة هوائية','حافلة مدرسية','قطار سريع','تلفريك','سيارة إسعاف','شرطة','سيارة سباق','طائرة ورقية'] },
+  home:     { label:'المنزل',  icon:'🏠', words:['ثلاجة','مكيف','سرير','كرسي','طاولة','مرآة','مصباح','تلفزيون','غسالة','مكنسة','مقلاة','إبريق','خزانة','ستارة','وسادة','بطانية','صنبور','فرن','مجرفة','جرس باب','قفل','مروحة','سجادة','ساعة حائط','برواز','ديكور','مفتاح كهرباء','دولاب','مرتبة','باب'] },
+  jobs:     { label:'مهن',     icon:'👨‍⚕️', words:['طبيب','مهندس','معلم','شرطي','طيار','طباخ','محامي','رسام','مصور','لاعب كرة','مغني','مؤلف','برمجة','مزارع','نجار','ميكانيكي','حلاق','بنّاء','صياد','عطار','كيميائي','فيلسوف','رياضي','مدرب','سائق','عسكري','دبلوماسي','فنان','ممثل','رائد فضاء'] },
+};
+
+// Anti-repeat liar tracking
+let lastLiars = [];
+
+// Score board
+let scoreBoard = {};
+try{ scoreBoard = JSON.parse(localStorage.getItem('kadhab_scores')||'{}'); }catch(e){}
 
 // ══════════════════════════════════════════
 //  STATE
 // ══════════════════════════════════════════
-let settings  = { sound:true, vibrate:true };
-let players   = [];
-let gameMode  = 'questions';
-let liarCount = 1;
-let liars     = [];
-let secretWord= '';
+let settings = { sound:true, vibrate:true };
+let players  = [];
+let gameMode = 'questions';
+let selectedCategory = null;
+let liarCount= 1;
+let liars    = [];
+let secretWord   = '';   // what citizens see
+let liarDecoyWord= '';   // what the liar sees (different category/pool)
+let playerOrder  = [];   // randomized order for word distribution
 let currentPlayerIndex = 0;
-let votes={}, hasVoted={};
-let questionPairs=[], questionIndex=0;
-let describeOrder=[], describeIndex=0;
-let voterIndex=0;
+let votes = {}, hasVoted = {};
+let questionPairs = [], questionIndex = 0;
+let describeOrder = [], describeIndex = 0;
+let voterIndex = 0;
+let eliminatedPlayer = '';
 
 // ══════════════════════════════════════════
 //  PARTICLES
@@ -523,7 +510,7 @@ let voterIndex=0;
 (function(){
   const c=document.getElementById('particles');
   for(let i=0;i<28;i++){
-    const p=document.createElement('div'); p.className='particle';
+    const p=document.createElement('div');p.className='particle';
     p.style.cssText=`left:${Math.random()*100}%;animation-duration:${9+Math.random()*12}s;animation-delay:${Math.random()*12}s;--drift:${(Math.random()-.5)*120}px;width:${1+Math.random()*2}px;height:${1+Math.random()*2}px;background:${Math.random()>.5?'var(--accent)':'var(--gold)'};`;
     c.appendChild(p);
   }
@@ -542,13 +529,37 @@ function showScreen(id){
 // ══════════════════════════════════════════
 //  SETTINGS
 // ══════════════════════════════════════════
-function toggleSetting(key){
-  settings[key]=!settings[key];
-  document.getElementById('toggle-'+key).classList.toggle('on',settings[key]);
+function toggleSetting(k){
+  settings[k]=!settings[k];
+  document.getElementById('toggle-'+k).classList.toggle('on',settings[k]);
 }
-function changeFontSize(val){
-  document.documentElement.style.fontSize=(val/100)*16+'px';
-  document.getElementById('font-size-label').textContent=val+'%';
+function changeFontSize(v){
+  document.documentElement.style.fontSize=(v/100)*16+'px';
+  document.getElementById('font-size-label').textContent=v+'%';
+}
+
+// ══════════════════════════════════════════
+//  SCOREBOARD
+// ══════════════════════════════════════════
+function saveScores(){ try{localStorage.setItem('kadhab_scores',JSON.stringify(scoreBoard));}catch(e){} }
+function addScore(name,pts){
+  if(!scoreBoard[name]) scoreBoard[name]=0;
+  scoreBoard[name]+=pts;
+  saveScores();
+}
+function renderScoreboard(){
+  const el=document.getElementById('scoreboard-display');
+  const entries=Object.entries(scoreBoard).sort((a,b)=>b[1]-a[1]);
+  if(!entries.length){el.innerHTML='<div class="hint">لا توجد نقاط بعد. العب أولاً!</div>';return;}
+  const medals=['🥇','🥈','🥉'];
+  el.innerHTML=entries.map(([name,pts],i)=>`
+    <div class="score-row">
+      <div style="display:flex;align-items:center;gap:9px;">
+        <span style="font-size:1.1rem;">${medals[i]||'🎖️'}</span>
+        <span style="font-weight:700;">${name}</span>
+      </div>
+      <div style="font-size:1.1rem;font-weight:900;color:var(--gold);">${pts} نقطة</div>
+    </div>`).join('');
 }
 
 // ══════════════════════════════════════════
@@ -558,12 +569,12 @@ function addPlayer(){
   const inp=document.getElementById('player-input');
   const name=inp.value.trim();
   if(!name||players.includes(name)){inp.value='';return;}
-  players.push(name); inp.value='';
-  renderPlayers(); updateStartBtn();
+  players.push(name);inp.value='';
+  renderPlayers();updateStartBtn();
 }
 function removePlayer(name){
   players=players.filter(p=>p!==name);
-  renderPlayers(); updateStartBtn();
+  renderPlayers();updateStartBtn();
 }
 function renderPlayers(){
   document.getElementById('players-list').innerHTML=
@@ -574,19 +585,41 @@ function updateStartBtn(){
 }
 
 // ══════════════════════════════════════════
+//  CATEGORY SELECTION
+// ══════════════════════════════════════════
+function buildCategoryGrid(){
+  selectedCategory=null;
+  document.getElementById('cat-next-btn').disabled=true;
+  document.getElementById('category-grid').innerHTML=
+    Object.entries(CATEGORIES).map(([key,cat])=>`
+      <button class="cat-btn" id="cat-${key}" onclick="selectCategory('${key}')">
+        <span class="cat-check">✓</span>
+        <span class="cat-icon">${cat.icon}</span>
+        ${cat.label}
+      </button>`).join('');
+}
+
+function selectCategory(key){
+  selectedCategory=key;
+  document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('selected'));
+  document.getElementById('cat-'+key).classList.add('selected');
+  document.getElementById('cat-next-btn').disabled=false;
+}
+
+// ══════════════════════════════════════════
 //  MODE
 // ══════════════════════════════════════════
 function goToMode(){ showScreen('screen-mode'); }
-function selectMode(mode){
-  gameMode=mode;
-  document.getElementById('mode-q').classList.toggle('selected',mode==='questions');
-  document.getElementById('mode-d').classList.toggle('selected',mode==='describe');
+function selectMode(m){
+  gameMode=m;
+  document.getElementById('mode-q').classList.toggle('selected',m==='questions');
+  document.getElementById('mode-d').classList.toggle('selected',m==='describe');
 }
 
 // ══════════════════════════════════════════
 //  LIAR COUNT
 // ══════════════════════════════════════════
-function goToLiarCount(){ liarCount=1; updateLiarDisplay(); showScreen('screen-liar-count'); }
+function goToLiarCount(){ liarCount=1;updateLiarDisplay();showScreen('screen-liar-count'); }
 function changeLiarCount(d){
   const max=players.length>=6?3:players.length>=5?2:1;
   liarCount=Math.max(1,Math.min(max,liarCount+d));
@@ -599,45 +632,102 @@ function updateLiarDisplay(){
 }
 
 // ══════════════════════════════════════════
-//  START
+//  PICK WORD — returns random item from array
+// ══════════════════════════════════════════
+function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+
+// Fisher-Yates shuffle
+function shuffle(arr){
+  const a=[...arr];
+  for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
+  return a;
+}
+
+// ══════════════════════════════════════════
+//  START GAME
 // ══════════════════════════════════════════
 function startGame(){
-  secretWord=words[Math.floor(Math.random()*words.length)];
-  const sh=[...players].sort(()=>Math.random()-.5);
-  liars=sh.slice(0,liarCount);
-  currentPlayerIndex=0; votes={}; hasVoted={};
+  const cat = CATEGORIES[selectedCategory];
+  // Citizen word from chosen category
+  secretWord = pick(cat.words);
+
+  // Liar decoy: pick from the SAME category, but a different word
+  const decoyPool = cat.words.filter(w => w !== secretWord);
+  liarDecoyWord = pick(decoyPool);
+
+  // Randomize player order for distribution — fully shuffled
+  playerOrder = shuffle(players);
+
+  // Pick liars with anti-repeat mechanism
+  // Weighted random: players who were liars recently get lower weight
+  const weights = players.map(p=>{
+    const lastIdx = lastLiars.lastIndexOf(p);
+    if(lastIdx===-1) return 4;           // never been liar: high weight
+    if(lastIdx===lastLiars.length-1) return 0; // was liar last round: weight 0
+    if(lastIdx>=lastLiars.length-2) return 1;  // 2 rounds ago: low weight
+    return 3;
+  });
+  const totalWeight = weights.reduce((a,b)=>a+b,0)||players.length;
+  const selected=[];
+  const tempWeights=[...weights];
+  for(let n=0;n<liarCount;n++){
+    let r=Math.random()*tempWeights.reduce((a,b)=>a+b,1);
+    for(let i=0;i<players.length;i++){
+      if(selected.includes(players[i]))continue;
+      r-=tempWeights[i];
+      if(r<=0){selected.push(players[i]);tempWeights[i]=0;break;}
+    }
+    // fallback if all weights 0
+    if(selected.length<=n){
+      const remaining=players.filter(p=>!selected.includes(p));
+      if(remaining.length) selected.push(pick(remaining));
+    }
+  }
+  liars=selected;
+  // Track for next round (keep last 3)
+  lastLiars=[...lastLiars,...liars].slice(-players.length*2);
+
+  // Reset state
+  currentPlayerIndex=0;votes={};hasVoted={};eliminatedPlayer='';
   if(gameMode==='questions') generateQuestions();
   else generateDescribeOrder();
 
+  // Intro
   const badge=document.getElementById('intro-mode-badge');
   const rules=document.getElementById('intro-rules');
+  const catLabel=cat.label;
   if(gameMode==='questions'){
-    badge.innerHTML='<div class="mode-badge questions" style="display:inline-flex;margin:5px auto;">❓ نمط الأسئلة</div>';
-    rules.innerHTML='✅ سيُعطى كل لاعب الهاتف بشكل سري<br>👁️ اقرأ الكلمة ولا تريها لأحد<br>😈 الكذاب سيرى رسالة مختلفة<br>❓ بعد التوزيع تبدأ جولة الأسئلة';
+    badge.innerHTML=`<div class="mode-badge q">❓ نمط الأسئلة</div>`;
+    rules.innerHTML=`📂 الفئة المختارة: <strong>${catLabel}</strong><br>✅ سيُعطى كل لاعب الهاتف بشكل سري<br>👁️ اقرأ كلمتك ولا تريها لأحد<br>🤫 لا أحد يعلم من هو الكذاب!<br>❓ بعد التوزيع تبدأ جولة الأسئلة`;
   } else {
-    badge.innerHTML='<div class="mode-badge describe" style="display:inline-flex;margin:5px auto;">💬 نمط الوصف</div>';
-    rules.innerHTML='✅ سيُعطى كل لاعب الهاتف بشكل سري<br>👁️ اقرأ الكلمة ولا تريها لأحد<br>😈 الكذاب لا يعرف الكلمة الحقيقية<br>💬 بعد التوزيع كل لاعب يصف الكلمة بدوره بجملة واحدة';
+    badge.innerHTML=`<div class="mode-badge d">💬 نمط الوصف</div>`;
+    rules.innerHTML=`📂 الفئة المختارة: <strong>${catLabel}</strong><br>✅ سيُعطى كل لاعب الهاتف بشكل سري<br>👁️ اقرأ كلمتك ولا تريها لأحد<br>🤫 لا أحد يعلم من هو الكذاب!<br>💬 بعد التوزيع كل لاعب يصف كلمته بدوره`;
   }
   showScreen('screen-game-intro');
 }
+
 function restartGame(){ startGame(); }
 
+// ══════════════════════════════════════════
+//  QUESTION PAIRS — no repeats, fully random
+// ══════════════════════════════════════════
 function generateQuestions(){
   questionPairs=[];
-  const sh=[...players].sort(()=>Math.random()-.5);
+  // Each player asks everyone else exactly once (round-robin random order)
+  const sh=shuffle(players);
   for(let i=0;i<sh.length;i++){
-    const a=sh[i],b=sh[(i+1)%sh.length];
-    if(a!==b) questionPairs.push({asker:a,askee:b});
+    const asker=sh[i];
+    const targets=shuffle(sh.filter(p=>p!==asker));
+    targets.forEach(t=>questionPairs.push({asker,askee:t}));
   }
-  for(let i=0;i<players.length;i++){
-    const a=players[Math.floor(Math.random()*players.length)];
-    const b=players[Math.floor(Math.random()*players.length)];
-    if(a!==b) questionPairs.push({asker:a,askee:b});
-  }
+  // Shuffle the whole list for unpredictability
+  questionPairs=shuffle(questionPairs);
   questionIndex=0;
 }
+
 function generateDescribeOrder(){
-  describeOrder=[...players].sort(()=>Math.random()-.5);
+  // Each player describes once, random order
+  describeOrder=shuffle(players);
   describeIndex=0;
 }
 
@@ -645,35 +735,38 @@ function generateDescribeOrder(){
 //  WORD DISTRIBUTION
 // ══════════════════════════════════════════
 function nextPlayerWord(){
-  if(currentPlayerIndex>=players.length){
-    questionIndex=0; describeIndex=0;
+  if(currentPlayerIndex>=playerOrder.length){
+    questionIndex=0;describeIndex=0;
     if(gameMode==='questions') showQuestionPhase();
     else showDescribePhase();
     return;
   }
-  document.getElementById('pass-to-name').textContent=players[currentPlayerIndex];
-  showScreen('screen-pass-phone'); vibrate();
+  document.getElementById('pass-to-name').textContent=playerOrder[currentPlayerIndex];
+  showScreen('screen-pass-phone');vibrate();
 }
+
 function showPlayerWord(){
-  const name=players[currentPlayerIndex];
+  const name=playerOrder[currentPlayerIndex];
   const isLiar=liars.includes(name);
-  document.getElementById('word-display').innerHTML=isLiar
-    ?`<div class="liar-badge">😈 أنت الكذاب!</div>`
-    :`<div class="big-word">${secretWord}</div>`;
-  document.getElementById('word-hint').textContent=isLiar
-    ?'لا تعرف الكلمة الحقيقية. حاول أن تتظاهر!'
-    :'احفظ الكلمة ولا تريها لأحد!';
-  const prog=((currentPlayerIndex+1)/players.length)*100;
+  // Both citizen and liar see a word displayed EXACTLY the same way
+  // The liar just sees a different (decoy) word
+  const wordToShow = isLiar ? liarDecoyWord : secretWord;
+  document.getElementById('word-display').innerHTML=`<div class="big-word">${wordToShow}</div>`;
+  document.getElementById('word-hint').textContent='احفظ الكلمة ولا تريها لأحد!';
+  const prog=((currentPlayerIndex+1)/playerOrder.length)*100;
   document.getElementById('word-progress').style.width=prog+'%';
-  document.getElementById('word-progress-text').textContent=`اللاعب ${currentPlayerIndex+1} من ${players.length}`;
-  showScreen('screen-show-word'); vibrate();
+  document.getElementById('word-progress-text').textContent=`اللاعب ${currentPlayerIndex+1} من ${playerOrder.length}`;
+  showScreen('screen-show-word');vibrate();
 }
-function doneReadingWord(){ currentPlayerIndex++; nextPlayerWord(); }
+
+function doneReadingWord(){
+  currentPlayerIndex++;nextPlayerWord();
+}
 
 // ══════════════════════════════════════════
 //  QUESTION PHASE
 // ══════════════════════════════════════════
-function showQuestionPhase(){ showQPair(); showScreen('screen-questions'); }
+function showQuestionPhase(){ showQPair();showScreen('screen-questions'); }
 function showQPair(){
   const pair=questionPairs[questionIndex%questionPairs.length];
   document.getElementById('q-asker').textContent=pair.asker;
@@ -689,7 +782,7 @@ function nextQuestion(){
 // ══════════════════════════════════════════
 //  DESCRIBE PHASE
 // ══════════════════════════════════════════
-function showDescribePhase(){ showDescribeTurn(); showScreen('screen-describe'); }
+function showDescribePhase(){ showDescribeTurn();showScreen('screen-describe'); }
 function showDescribeTurn(){
   const name=describeOrder[describeIndex%describeOrder.length];
   document.getElementById('d-current-player').textContent=name;
@@ -705,62 +798,157 @@ function nextDescribe(){
 //  VOTING
 // ══════════════════════════════════════════
 function goToVoting(){
-  voterIndex=0; votes={}; players.forEach(p=>{votes[p]=0;hasVoted[p]=false;});
-  showVoter(); showScreen('screen-voting');
+  voterIndex=0;votes={};
+  // Randomize voting order
+  const votingOrder=shuffle(players);
+  players=votingOrder; // re-order for voting
+  players.forEach(p=>{votes[p]=0;hasVoted[p]=false;});
+  showVoter();showScreen('screen-voting');
 }
+
 function showVoter(){
-  if(voterIndex>=players.length){showResults();return;}
+  if(voterIndex>=players.length){processElimination();return;}
   const voter=players[voterIndex];
   document.getElementById('current-voter').textContent=voter;
+  // Candidates also in random order
+  const candidates=shuffle(players.filter(p=>p!==voter));
   document.getElementById('vote-buttons').innerHTML=
-    players.filter(p=>p!==voter).map(p=>`
+    candidates.map(p=>`
       <button class="vote-btn" onclick="castVote('${voter}','${p}')">
         <span>${p}</span><span style="font-size:1.2rem;">🎯</span>
       </button>`).join('');
 }
+
 function castVote(voter,target){
-  votes[target]=(votes[target]||0)+1; hasVoted[voter]=true;
-  voterIndex++; showVoter();
+  votes[target]=(votes[target]||0)+1;
+  hasVoted[voter]=true;voterIndex++;showVoter();
+}
+
+// ══════════════════════════════════════════
+//  ELIMINATION & LIAR GUESS
+// ══════════════════════════════════════════
+function processElimination(){
+  let maxVotes=0;
+  eliminatedPlayer='';
+  Object.entries(votes).forEach(([n,v])=>{if(v>maxVotes){maxVotes=v;eliminatedPlayer=n;}});
+
+  // ALWAYS show the liar guess screen after voting.
+  // The liar always gets to guess — if they guess right they win,
+  // if they guess wrong citizens win. Whether or not the eliminated
+  // player is actually the liar is revealed only on the results screen.
+  showLiarGuessScreen(liars[0]);
+}
+
+function showLiarGuessScreen(liarName){
+  document.getElementById('liar-guess-name').textContent=liarName;
+
+  const liarWasCaught = liars.includes(eliminatedPlayer);
+
+  // Update the context text based on whether liar was caught or escaped
+  const contextEl = document.getElementById('liar-guess-context');
+  if(liarWasCaught){
+    contextEl.innerHTML=`تم اكتشافك يا <strong style="color:var(--accent);">${liarName}</strong>! لكن لديك فرصة أخيرة للفوز.<br>خمّن الكلمة السرية التي رآها المواطنون.<br><strong style="color:var(--accent);">خمّن صح → الكذاب يفوز! | خمّن غلط → المواطنون يفوزون!</strong>`;
+  } else {
+    contextEl.innerHTML=`لم يكتشفك أحد يا <strong style="color:var(--success);">${liarName}</strong>! الآن أكمل انتصارك.<br>خمّن الكلمة السرية التي رآها المواطنون.<br><strong style="color:var(--gold);">خمّن صح → تفوز بنقاط مضاعفة! | خمّن غلط → المواطنون يفوزون!</strong>`;
+  }
+
+  // Build 6 choices: 1 correct (secretWord) + 5 distractors from same category
+  const catWords = CATEGORIES[selectedCategory].words;
+  const distractors = shuffle(catWords.filter(w => w !== secretWord)).slice(0, 5);
+  const choices = shuffle([secretWord, ...distractors]);
+
+  document.getElementById('guess-choices').innerHTML =
+    choices.map(w =>
+      `<button class="guess-btn" onclick="liarGuesses('${w.replace(/'/g,"\\'")}','${liarName.replace(/'/g,"\\'")}')">${w}</button>`
+    ).join('');
+
+  showScreen('screen-liar-guess');
+}
+
+function liarGuesses(chosen, liarName){
+  const correct = chosen === secretWord;
+  const liarWasCaught = liars.includes(eliminatedPlayer);
+
+  // Highlight buttons
+  document.querySelectorAll('.guess-btn').forEach(btn=>{
+    if(btn.textContent.trim() === secretWord) btn.classList.add('correct');
+    else if(btn.textContent.trim() === chosen && !correct) btn.classList.add('wrong');
+    btn.onclick = null;
+  });
+
+  setTimeout(()=>{
+    if(correct){
+      // Liar guessed right — liar wins (regardless of whether they were caught)
+      showResults('liar_wins_guess', liarName, chosen, liarWasCaught);
+    } else {
+      // Liar guessed wrong — citizens win
+      showResults('citizens_win', liarName, chosen, liarWasCaught);
+    }
+  }, 1200);
 }
 
 // ══════════════════════════════════════════
 //  RESULTS
+// outcome: 'liar_wins_guess' | 'citizens_win'
+// liarWasCaught: bool — was the eliminated player actually the liar?
 // ══════════════════════════════════════════
-function showResults(){
-  let maxVotes=0,eliminated='';
-  Object.entries(votes).forEach(([n,v])=>{if(v>maxVotes){maxVotes=v;eliminated=n;}});
-  const liarWin=!liars.includes(eliminated);
-  const modeBadge=`<div class="mode-badge ${gameMode==='questions'?'questions':'describe'}" style="display:inline-flex;margin:4px auto 8px;">${gameMode==='questions'?'❓ نمط الأسئلة':'💬 نمط الوصف'}</div>`;
+function showResults(outcome, liarName, guessedWord, liarWasCaught){
+  const modeBadge=`<div class="mode-badge ${gameMode==='questions'?'q':'d'}" style="display:inline-flex;margin:4px auto 7px;">${gameMode==='questions'?'❓ نمط الأسئلة':'💬 نمط الوصف'}</div>`;
+  const catLabel=CATEGORIES[selectedCategory].label;
+  const liarSuffix=liars.length>1?'ون':'';
+  const liarNames=liars.join('، ');
+  let html='';
 
-  document.getElementById('result-content').innerHTML=liarWin?`
-    <div class="result-icon">😈</div>${modeBadge}
-    <div class="result-title" style="color:var(--accent);">الكذاب يفوز!</div>
-    <div class="hint">تم إقصاء <strong>${eliminated}</strong> لكنه ليس الكذاب</div>
+  const revealCard=`
     <div class="card" style="margin-top:8px;text-align:center;">
-      <div style="font-size:.83rem;color:var(--text-muted);">الكلمة السرية كانت</div>
+      <div style="font-size:.82rem;color:var(--text-muted);">📂 الفئة: ${catLabel}</div>
+      <div style="font-size:.82rem;color:var(--text-muted);margin-top:4px;">كلمة المواطنين كانت</div>
       <div class="big-word">${secretWord}</div>
-      <div style="font-size:.83rem;color:var(--text-muted);">الكذاب${liars.length>1?'ون':''}: <strong style="color:var(--accent);">${liars.join('، ')}</strong></div>
-    </div>`:
-    `<div class="result-icon">🎉</div>${modeBadge}
-    <div class="result-title" style="color:var(--success);">اللاعبون العاديون يفوزون!</div>
-    <div class="hint">تم اكتشاف الكذاب: <strong>${eliminated}</strong></div>
-    <div class="card" style="margin-top:8px;text-align:center;">
-      <div style="font-size:.83rem;color:var(--text-muted);">الكلمة السرية كانت</div>
-      <div class="big-word">${secretWord}</div>
-      <div style="font-size:.83rem;color:var(--text-muted);">الكذاب${liars.length>1?'ون':''}: <strong style="color:var(--accent);">${liars.join('، ')}</strong></div>
+      <div style="font-size:.82rem;color:var(--text-muted);">كلمة الكذاب كانت: <strong style="color:var(--purple);">${liarDecoyWord}</strong></div>
+      <div style="font-size:.82rem;color:var(--text-muted);margin-top:4px;">الكذاب${liarSuffix}: <strong style="color:var(--accent);">${liarNames}</strong></div>
+      <div style="font-size:.82rem;color:var(--text-muted);margin-top:2px;">المُقصى: <strong>${eliminatedPlayer}</strong> ${liarWasCaught?'😈 (الكذاب)':'✅ (بريء)'}</div>
     </div>`;
 
+  if(outcome==='liar_wins_guess'){
+    const subtitle = liarWasCaught
+      ? `<strong>${liarName}</strong> اكتُشف لكنه خمّن الكلمة الصحيحة! 🎯`
+      : `<strong>${liarName}</strong> لم يُكتشف وخمّن الكلمة الصحيحة! 🎯`;
+    html=`
+      <div class="result-icon">🕵️</div>${modeBadge}
+      <div class="result-title" style="color:var(--accent);">الكذاب يفوز!</div>
+      <div class="hint">${subtitle}</div>
+      ${revealCard}`;
+    liars.forEach(l=>addScore(l, liarWasCaught ? 3 : 4));
+
+  } else {
+    // citizens_win — liar guessed wrong
+    const subtitle = liarWasCaught
+      ? `الكذاب اكتُشف وخمّن "<strong>${guessedWord}</strong>" ❌`
+      : `الكذاب لم يُكتشف لكنه خمّن "<strong>${guessedWord}</strong>" ❌`;
+    html=`
+      <div class="result-icon">🎉</div>${modeBadge}
+      <div class="result-title" style="color:var(--success);">المواطنون يفوزون!</div>
+      <div class="hint">${subtitle}</div>
+      ${revealCard}`;
+    players.filter(p=>!liars.includes(p)).forEach(p=>addScore(p,1));
+  }
+
+  document.getElementById('result-content').innerHTML=html;
+
+  // Vote tally
+  const maxV=Math.max(...Object.values(votes),1);
   const sorted=Object.entries(votes).sort((a,b)=>b[1]-a[1]);
   document.getElementById('vote-tally').innerHTML=sorted.map(([n,v])=>`
     <div class="vote-tally">
       <div style="flex:1;">
         <div style="font-weight:700;">${n} ${liars.includes(n)?'😈':''}</div>
-        <div class="vote-tally-bar" style="width:${maxVotes>0?Math.max(20,(v/maxVotes)*150):20}px;"></div>
+        <div class="vote-tally-bar" style="width:${Math.max(16,(v/maxV)*140)}px;"></div>
       </div>
-      <div style="font-size:1.15rem;font-weight:900;color:${v===maxVotes?'var(--accent)':'var(--text-muted)'};">${v} 🗳️</div>
+      <div style="font-size:1.1rem;font-weight:900;color:${v===maxV?'var(--accent)':'var(--text-muted)'};">${v} 🗳️</div>
     </div>`).join('');
 
-  showScreen('screen-results'); vibrate([100,50,200]);
+  showScreen('screen-results');
+  vibrate([100,50,200]);
 }
 
 // ══════════════════════════════════════════
@@ -768,8 +956,22 @@ function showResults(){
 // ══════════════════════════════════════════
 function vibrate(p=[80]){ if(settings.vibrate&&navigator.vibrate) navigator.vibrate(p); }
 
-// Init
+// ══════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════
 updateStartBtn();
+buildCategoryGrid();
+renderScoreboard();
+
+// Keep category grid fresh each time screen is visited
+document.getElementById('screen-players').addEventListener('transitionend',()=>{});
+// Rebuild category on revisit
+const origShowScreen=showScreen;
+window.showScreen=function(id){
+  origShowScreen(id);
+  if(id==='screen-category') buildCategoryGrid();
+  if(id==='screen-scores') renderScoreboard();
+};
 </script>
 </body>
 </html>
